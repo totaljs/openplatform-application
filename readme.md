@@ -2,7 +2,7 @@
 
 Works only with OpenPlatform app.
 
-__Server-Side Methods__:
+## Server-Side Methods
 
 ##### `OPENPLATFORM.kill()`
 
@@ -24,7 +24,7 @@ Returns `{User}` instance when exists in the session (otherwise returns `null`).
 
 ##### `OPENPLATFORM.authorize(req, res, callback(err, user))`
 
-__Internal.__ It creates a session and it's used in `/openplatform/` route (the module `openplatform` registers this route internaly).
+__internal.__ It creates a session and it's used in `/openplatform/` route (the module `openplatform` registers this route internally).
 
 ---
 
@@ -49,3 +49,25 @@ OPENPLATFORM.getZsers(user.openplatform, user.id, function(err, response) {
 
 });
 ```
+
+##### `OPENPLATFORM.getInfo(openplatform, callback(err, users))`
+
+Gets info about OpenPlatform: `name`, `url`, `version`, `author` and `email`.
+
+---
+
+##### `OPENPLATFORM.notify(openplatform, iduser, body, callback(err, response), url, type)`
+
+Creates a notification for the user.
+
+- `body {String}` a plain text
+- `url {String}` optional, the application's iframe will redirect to this URL (default: `application url`)
+- `type {Number}` optional, info `0` (default), `1` success, `2` warning
+
+---
+
+##### `OPENPLATFORM.serviceworker(openplatform, iduser, event, data, callback(err, array))`
+
+Sends the data to all applications which subscribe `event`
+
+---
