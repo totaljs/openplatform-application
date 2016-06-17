@@ -9,4 +9,4 @@ openplatform.url                : http://openapp.totaljs.com/openplatform.json
 openplatform.secret             :
 
 // Enables test user
-openplatform.testmode           : false
+openplatform.testmode           : true
