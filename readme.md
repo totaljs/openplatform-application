@@ -1,7 +1,15 @@
-# Dependencies
+# OpenPlatform
 
-# Application
+Works only with OpenPlatform app.
 
-# Widgets
+__Server-Side Methods__:
 
-# Client-side
+> `OPENPLATFORM.kill()`
+
+Returns `{String}` and contains HTML code for closing iframe.
+
+> `OPENPLATFORM.clientside()`
+
+Returns `{String}` and contains HTML code with client-side implementation of OpenPlatform.
+
+

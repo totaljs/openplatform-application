@@ -1,17 +1,17 @@
 {
-	"name": "Test",
+	"name": "TestApp",
 	"description": "Some text for the super user.",
 	"version": "1.0.0",
-	"icon": "http://petersirka.ngrok.io/icon.png",
-	"url": "http://petersirka.ngrok.io",
-	"sessionurl": "http://petersirka.ngrok.io/openplatform/",
+	"icon": "http://openapp.totaljs.com/icon.png",
+	"url": "http://openapp.totaljs.com",
+	"sessionurl": "http://openapp.totaljs.com/openplatform/",
 	"author": "Peter Širka",
 	"email": "petersirka@gmail.com",
 	"roles": ["create", "read", "update"],
 	"widgets": [
 		{
 			"name": "Chart.js",
-			"url": "http://petersirka.ngrok.io/widgets/chartjs/",
+			"url": "http://openapp.totaljs.com/widgets/chartjs/",
 			"redirect": "",
 			"background": "white",
 			"color": "silver",
@@ -19,7 +19,7 @@
 		},
 		{
 			"name": "SVG",
-			"url": "http://petersirka.ngrok.io/widgets/svg/",
+			"url": "http://openapp.totaljs.com/widgets/svg/",
 			"redirect": "",
 			"background": "white",
 			"color": "silver",

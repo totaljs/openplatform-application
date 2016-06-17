@@ -6,7 +6,8 @@ exports.install = function() {
 function json_chartjs() {
 	var self = this;
 	var openplatform = self.openplatform();
-	if (openplatform.empty || openplatform.secret !== CONFIG('openplatform.secret'))
+
+	if (openplatform.empty || (openplatform.secret && openplatform.secret !== CONFIG('openplatform.secret')))
 		return self.throw404();
 
 	// openplatform.openplatform   --> openplatform URL
@@ -31,7 +32,7 @@ function json_chartjs() {
 function svg_image() {
 	var self = this;
 	var openplatform = self.openplatform();
-	if (openplatform.empty || openplatform.secret !== CONFIG('openplatform.secret'))
+	if (openplatform.empty || (openplatform.secret && openplatform.secret !== CONFIG('openplatform.secret')))
 		return self.throw404();
 
 	// openplatform.openplatform   --> openplatform URL

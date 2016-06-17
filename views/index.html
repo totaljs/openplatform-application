@@ -15,13 +15,37 @@
 <body>
 
 	<div class="center">
+		<br />
+		<br />
 		<div><img src="@{user.photo}" /></div>
 		<br />
 		<div>User: <b>@{user.alias}</b></div>
+		<br />
+		<button onclick="OPENPLATFORM.close()">Close</button><button onclick="OPENPLATFORM.minimize()">Minimize</button>
 	</div>
 
 	<!-- client-side scripts -->
 	@{helpers.openplatform()}
+
+	<script>
+		OPENPLATFORM.on('minimize', function() {
+			console.log('minimize');
+		});
+
+		OPENPLATFORM.on('maximize', function() {
+			console.log('maximize');
+		});
+
+		OPENPLATFORM.on('close', function() {
+			console.log('close');
+		});
+
+		setTimeout(function() {
+			// You can create a notification on server-side too.
+			OPENPLATFORM.notify(0, 'Test notification only for you through the iframe window.postMessage(). It\'s very simple.');
+		}, 5000);
+
+	</script>
 
 </body>
 </html>

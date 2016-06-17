@@ -1,12 +1,12 @@
-name                            : OpenPlatfomr Test App
+name                            : OpenPlatform Test App
 author                          : You company name
 version                         : 1.0.1
 secret                          : secret-key-for-web
 
-openplatform.url                : http://petersirka.ngrok.io/openplatform.json
+openplatform.url                : http://openapp.totaljs.com/openplatform.json
 
 // Important: openplatform (administration) must know this secret
 openplatform.secret             :
 
 // Enables test user
-openplatform.testmode           : true
+openplatform.testmode           : false
