@@ -8,17 +8,25 @@ __Server-Side Methods__:
 
 Returns `{String}` and contains HTML code for closing iframe.
 
+---
+
 ##### `OPENPLATFORM.clientside()`
 
 Returns `{String}` and contains HTML code with client-side implementation of OpenPlatform.
+
+---
 
 ##### `OPENPLATFORM.session(cookie_name)`
 
 Returns `{User}` instance when exists in the session (otherwise returns `null`).
 
+---
+
 ##### `OPENPLATFORM.authorize(req, res, callback(err, user))`
 
 __Internal.__ It creates a session and it's used in `/openplatform/` route (the module `openplatform` registers this route internaly).
+
+---
 
 ##### `OPENPLATFORM.getApplications(openplatform, iduser, callback(err, applications))`
 
