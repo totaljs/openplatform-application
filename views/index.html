@@ -20,19 +20,8 @@
 		<div>User: <b>@{user.alias}</b></div>
 	</div>
 
-	<!-- client-side script -->
+	<!-- client-side scripts -->
 	@{helpers.openplatform()}
-
-	<script>
-		var user;
-
-		// All methods in /public/js/openplatform.js
-		OPENPLATFORM.getProfile(function(err, data) {
-			user = data;
-			console.log('---> userprofile via iframe messaging', user);
-		});
-
-	</script>
 
 </body>
 </html>

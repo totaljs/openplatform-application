@@ -3,14 +3,10 @@ author                          : You company name
 version                         : 1.0.1
 secret                          : secret-key-for-web
 
-// Mail settings
-mail.smtp                       : smtp.yourwebsite.com
-mail.smtp.options               : {"secure":false,"port":25,"user":"","password":"","timeout":10000}
-mail.address.from               : your@yourwebsite.com
-mail.address.reply              : your@yourwebsite.com
-mail.address.bcc                :
-
 openplatform.url                : http://petersirka.ngrok.io/openplatform.json
 
 // Important: openplatform (administration) must know this secret
 openplatform.secret             :
+
+// Enables test user
+openplatform.testmode           : true

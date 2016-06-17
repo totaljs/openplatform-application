@@ -7,7 +7,24 @@
 	"sessionurl": "http://petersirka.ngrok.io/openplatform/",
 	"author": "Peter Širka",
 	"email": "petersirka@gmail.com",
-	"roles": [],
-	"widgets": [],
+	"roles": ["create", "read", "update"],
+	"widgets": [
+		{
+			"name": "Chart.js",
+			"url": "http://petersirka.ngrok.io/widgets/chartjs/",
+			"redirect": "",
+			"background": "white",
+			"color": "silver",
+			"size": 1
+		},
+		{
+			"name": "SVG",
+			"url": "http://petersirka.ngrok.io/widgets/svg/",
+			"redirect": "",
+			"background": "white",
+			"color": "silver",
+			"size": 1
+		}
+	],
 	"origin": []
 }
