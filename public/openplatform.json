@@ -4,7 +4,7 @@
 	"version": "1.0.0",
 	"icon": "http://petersirka.ngrok.io/icon.png",
 	"url": "http://petersirka.ngrok.io",
-	"session": "http://petersirka.ngrok.io/openplatform/",
+	"sessionurl": "http://petersirka.ngrok.io/openplatform/",
 	"author": "Peter Širka",
 	"email": "petersirka@gmail.com",
 	"roles": [],
