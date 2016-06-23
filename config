@@ -10,3 +10,6 @@ openplatform.secret             :
 
 // Enables test user
 openplatform.testmode           : true
+
+// Enables logs
+openplatform.debug              : true
