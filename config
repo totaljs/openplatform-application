@@ -12,4 +12,4 @@ openplatform.secret             :
 openplatform.testmode           : true
 
 // Enables logs
-openplatform.debug              : true
+openplatform.debug              : false
