@@ -4,7 +4,7 @@
 	"version": "1.0.0",
 	"icon": "http://openapp.totaljs.com/icon.png",
 	"url": "http://openapp.totaljs.com",
-	"sessionurl": "http://openapp.totaljs.com/openplatform/",
+	"url_session": "http://openapp.totaljs.com/openplatform/",
 	"author": "Peter Širka",
 	"email": "petersirka@gmail.com",
 	"roles": ["create", "read", "update"],
