@@ -1,6 +1,6 @@
 name                            : OpenPlatform Test App
 author                          : You company name
-version                         : 1.0.1
+version                         : 1.0.0
 secret                          : secret-key-for-web
 
 openplatform.url                : http://openapp.totaljs.com/openplatform.json
