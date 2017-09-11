@@ -4,27 +4,8 @@
 	"version": "1.0.0",
 	"icon": "http://127.0.0.1:8001/icon.png",
 	"url": "http://127.0.0.1:8001",
-	"url_session": "http://127.0.0.1:8001/openplatform/",
 	"author": "Peter Širka",
 	"email": "petersirka@gmail.com",
 	"roles": ["create", "read", "update"],
-	"widgets": [
-		{
-			"name": "Chart.js",
-			"url": "http://127.0.0.1:8001/widgets/chartjs/",
-			"redirect": "",
-			"background": "white",
-			"color": "silver",
-			"size": 1
-		},
-		{
-			"name": "SVG",
-			"url": "http://127.0.0.1:8001/widgets/svg/",
-			"redirect": "",
-			"background": "white",
-			"color": "silver",
-			"size": 1
-		}
-	],
 	"origin": []
 }

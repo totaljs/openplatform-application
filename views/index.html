@@ -1,5 +1,5 @@
 @{layout('')}
-@{title('Example of OpenPlatform application')}
+@{title('OpenPlatform TestApp')}
 
 <!DOCTYPE html>
 <html>
@@ -9,41 +9,56 @@
 	<meta name="format-detection" content="telephone=no" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="robots" content="all,follow" />
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	@{import('meta', 'head', 'default.css', 'default.js', 'favicon.ico')}
+	<script src="http://127.0.0.1:8000/openplatform.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	@{import('meta', 'head', 'default.css', 'favicon.ico')}
 </head>
 <body>
 
-	<div class="center">
-		<br />
-		<br />
-		<div><img src="@{user.photo}" /></div>
-		<br />
-		<div>User: <b>@{user.alias}</b></div>
-		<br />
-		<button onclick="OPENPLATFORM.close()">Close</button><button onclick="OPENPLATFORM.minimize()">Minimize</button>
+	<div class="panel">
+		<nav>
+			<button onclick="OPENPLATFORM.minimize()">Minimize</button>
+			<button onclick="notify()">Notify</button>
+			<button onclick="OPENPLATFORM.close()">Close</button>
+		</nav>
+		<div class="padding">
+			<div id="photo"></div>
+			<div id="username">...</div>
+		</div>
 	</div>
 
-	<!-- client-side scripts -->
-	@{helpers.openplatform()}
-
 	<script>
+
+		OPENPLATFORM.init(function(err, meta) {
+
+			if (err) {
+				document.body.innerHTML = '401: unauthorized';
+				window.close();
+				return;
+			}
+
+			$('#photo').html('<img src="' + meta.profile.photo + '" />');
+			$('#username').html(meta.profile.name + '<br /><b>' + meta.profile.position + '</b>');
+
+			console.log('TestApp --> meta');
+			console.log(meta);
+		});
+
 		OPENPLATFORM.on('minimize', function() {
-			console.log('minimize');
+			console.log('TestApp --> minimize');
 		});
 
 		OPENPLATFORM.on('maximize', function() {
-			console.log('maximize');
+			console.log('TestApp --> maximize');
 		});
 
 		OPENPLATFORM.on('close', function() {
-			console.log('close');
+			console.log('TestApp --> close');
 		});
 
-		setTimeout(function() {
-			// You can create a notification on server-side too.
-			OPENPLATFORM.notify(0, 'Test notification only for you through the iframe window.postMessage(). It\'s very simple.');
-		}, 5000);
+		function notify() {
+			OPENPLATFORM.notify(1, 'Test notification only for you through the iframe window.postMessage(). It\'s very simple.');
+		}
 
 	</script>
 
