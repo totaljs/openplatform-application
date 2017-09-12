@@ -37,12 +37,23 @@
 				return;
 			}
 
+			if (meta.serverside) {
+				// OpenPlatform requires a server-side verification
+				$.get('/verify/?url=' + encodeURIComponent(meta.verify), function(response) {
+					init(typeof(response) === 'string' ? JSON.parse(response) : response);
+				});
+			} else
+				init(meta);
+
+		});
+
+		function init(meta) {
 			$('#photo').html('<img src="' + meta.profile.photo + '" />');
 			$('#username').html(meta.profile.name + '<br /><b>' + meta.profile.position + '</b>');
 
 			console.log('TestApp --> meta');
 			console.log(meta);
-		});
+		}
 
 		OPENPLATFORM.on('minimize', function() {
 			console.log('TestApp --> minimize');
