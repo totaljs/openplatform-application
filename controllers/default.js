@@ -8,6 +8,10 @@ exports.install = function() {
 function json_verify() {
 	// Server-Side verification for OpenPlatform meta-data
 	var self = this;
+
+	if (!self.query.url)
+		return self.invalid().push('Invalid URL address.');
+
 	var builder = new RESTBuilder(self.query.url);
 	builder.exec(function(err, response) {
 		if (err)
