@@ -9,8 +9,9 @@
 	<meta name="format-detection" content="telephone=no" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="robots" content="all,follow" />
-	<script src="https://cdn.totaljs.com/openplatform.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<link href="@{'%cdn'}/spa.min@16.css" rel="stylesheet" />
+	<script src="@{'%cdn'}/spa.min@16.js"></script>
+	<script src="@{'%cdn'}/openplatform.min@3.js"></script>
 	@{import('meta', 'head', 'default.css', 'favicon.ico')}
 </head>
 <body>
@@ -49,11 +50,16 @@
 
 		function init(meta) {
 			$('#photo').html('<img src="' + meta.profile.photo + '" />');
-			$('#username').html(meta.profile.name + '<br /><b>' + meta.profile.position + '</b>');
-
+			$('#username').html(meta.profile.name + '<br /><b>' + meta.profile.ou + '</b>');
 			console.log('TestApp --> meta');
 			console.log(meta);
 		}
+
+		OPENPLATFORM.on('notify', console.log);
+
+		OPENPLATFORM.on('resize', function(o) {
+			console.log('TestApp --> resize', o);
+		});
 
 		OPENPLATFORM.on('minimize', function() {
 			console.log('TestApp --> minimize');
