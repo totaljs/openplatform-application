@@ -1,5 +1,6 @@
 name                  : OpenPlatform Test App
 author                : You company name
 version               : 1.0.1
-secret                : secret-key-for-web
 cdn                   : //cdn.componentator.com
+
+allow-custom-titles   : true

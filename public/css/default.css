@@ -1,15 +1,35 @@
 /*auto*/
 
-body { padding:0; margin:0; font:normal 14px Arial; color: #656D78; background-color: #F0F0F0; line-height: 20px; }
+html,body { overflow: hidden; margin: 0; padding: 0; color: #303030; }
 
-.panel { position: absolute; left: 50%; top: 50%; width: 250px; margin: -125px 0 0 -125px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); background-color: white; border: 1px solid #E0E0E0; border-radius: 4px; }
-#photo { text-align: center; margin: 10px 0; }
-#photo img { border-radius: 4px; max-width: 100%; width: 100%; height: auto; }
-#username { text-align: center; }
+.b { font-weight: bold; }
+.ui-navigation { padding: 19px 0 0; }
+
+.mainmenu { float: left; width: 240px; background-color: #F0F0F0; padding: 0 0 10px; transition: all 0.3s; }
+.mainmenu-visible { left: 0 !important; }
+.mainmenu-panel { height: 56px; border-bottom: 1px solid #D0D0D0; }
+
+.body { margin-left: 220px; position: relative; background: url(../img/preloader.gif) no-repeat 50% 50%; }
+.padding { padding: 15px 20px; }
+.hidden { display: none; }
+.scroller { overflow-y: auto; overflow-x: hidden; overflow-scrolling: touch; }
+
+.help { font-size: 11px; color: #909090; margin-top: 8px; line-height: 13px; }
+.help .fa, .help .fal, .help .far { margin-right: 5px; }
+.help code { font: normal normal 11px Arial; background-color: #F0F0F0; padding: 1px 3px; border-radius: 2px; border: 1px solid #E0E0E0; }
+
+.nmt { margin-top: 0; }
+.nmb { margin-bottom : 0; }
+.npt { padding-top: 0; }
+.npb { padding-bottom: 0; }
 .padding { padding: 20px; }
+.mt5 { margin-top: 5px; }
+.center { text-align: center; }
+.right { text-align: right; }
 
-nav { display: block; height: 40px; }
-nav button { float: left; width: 33.33%; background-color: white; border: 0; font-size: 14px; height: 40px; border-bottom: 1px solid #E0E0E0; border-left: 1px solid #E0E0E0; cursor: pointer; outline: 0; }
-nav button:first-child { border-left: 0; border-radius: 4px 0 0 0; }
-nav button:last-child { border-radius: 0 4px 0 0; }
-nav button:hover { background-color: #F0F0F0; }
+@media(max-width: 500px) {
+	.mainmenu { position: absolute; float: none; left: -800px; width: 100%; z-index: 10; }
+	.mainmenu nav a { font-size: 16px; padding: 8px 15px; }
+	.body { margin-left: 0; }
+	.padding { padding: 20px 20px; }
+}

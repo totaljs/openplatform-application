@@ -1,5 +1,5 @@
 @{layout('')}
-@{title('OpenPlatform TestApp')}
+@{title(config.name)}
 
 <!DOCTYPE html>
 <html>
@@ -12,70 +12,42 @@
 	<link href="@{'%cdn'}/spa.min@16.css" rel="stylesheet" />
 	<script src="@{'%cdn'}/spa.min@16.js"></script>
 	<script src="@{'%cdn'}/openplatform.min@3.js"></script>
-	@{import('meta', 'head', 'default.css', 'favicon.ico')}
+	@{import('meta', 'head', 'default.js', 'default.css', 'favicon.ico')}
 </head>
-<body>
+<body data-jc="exec" data-bind="common.ready__invisible:!value" class="invisible">
 
-	<div class="panel">
-		<nav>
-			<button onclick="OPENPLATFORM.minimize()">Minimize</button>
-			<button onclick="notify()">Notify</button>
-			<button onclick="OPENPLATFORM.close()">Close</button>
-		</nav>
-		<div class="padding">
-			<div id="photo"></div>
-			<div id="username">...</div>
+	<div class="mainmenu">
+		<div class="scroller">
+			<div data-jc="navigation__common.page__datasource:common.cl.navigation;autoselect:true"></div>
 		</div>
 	</div>
 
+	<div class="body">
+		<div class="scroller">
+			<div data-jc="part__common.page__if:users;url:@{#}/parts/users.html;reload:users/reload" class="hidden"></div>
+			<div data-jc="part__common.page__if:settings;url:@{#}/parts/settings.html;reload:settings/reload" class="hidden"></div>
+		</div>
+	</div>
+
+
 	<script>
 
-		OPENPLATFORM.init(function(err, meta) {
+		MAKE('common', function(obj) {
+			obj.page = '';
 
-			if (err) {
-				document.body.innerHTML = '401: unauthorized';
-				window.close();
-				return;
-			}
+			// Codelists
+			obj.cl = {};
+			obj.cl.navigation = [{ id: 'users', name: '@(Users)', title: '@(List of users)', icon: 'users' }, { name: '@(Directory)', children: [{ id: 'settings', name: '@(Settings)' }] }];
+		});
 
-			if (meta.serverside) {
-				// OpenPlatform requires a server-side verification
-				$.get('/verify/?url=' + encodeURIComponent(meta.verify), function(response) {
-					init(typeof(response) === 'string' ? JSON.parse(response) : response);
-				});
-			} else
-				init(meta);
+		PLUGIN('main', function(exports) {
 
 		});
 
-		function init(meta) {
-			$('#photo').html('<img src="' + meta.profile.photo + '" />');
-			$('#username').html(meta.profile.name + '<br /><b>' + meta.profile.ou + '</b>');
-			console.log('TestApp --> meta');
-			console.log(meta);
-		}
-
-		OPENPLATFORM.on('notify', console.log);
-
-		OPENPLATFORM.on('resize', function(o) {
-			console.log('TestApp --> resize', o);
+		// Hides menu
+		WATCH('common.page', function() {
+			$('.mainmenu').rclass('mainmenu-visible');
 		});
-
-		OPENPLATFORM.on('minimize', function() {
-			console.log('TestApp --> minimize');
-		});
-
-		OPENPLATFORM.on('maximize', function() {
-			console.log('TestApp --> maximize');
-		});
-
-		OPENPLATFORM.on('close', function() {
-			console.log('TestApp --> close');
-		});
-
-		function notify() {
-			OPENPLATFORM.notify(1, 'Test notification only for you through the iframe window.postMessage(). It\'s very simple.');
-		}
 
 	</script>
 
