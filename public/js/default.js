@@ -20,8 +20,7 @@ function resizelayout() {
 ON('ready', resizelayout);
 $(document).ready(resizelayout);
 
-OP.on('resize', resizelayout);
-
+// Initializes
 OP.init(function(err) {
 	if (err) {
 		document.body.innerHTML = '401';
@@ -31,6 +30,15 @@ OP.init(function(err) {
 	SET('common.state', 'ready');
 });
 
+// Releases session
+OP.on('close', function() {
+	AJAX('GET /api/logoff/');
+});
+
+// Window is resized
+OP.on('resize', resizelayout);
+
+// Toggles menu for mobile devices
 OP.on('menu', function() {
 	$('.mainmenu').tclass('mainmenu-visible');
 });

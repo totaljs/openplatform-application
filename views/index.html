@@ -29,8 +29,11 @@
 		</div>
 	</div>
 
+	@{json(user, 'userdata')}
 
 	<script>
+
+		var user = PARSE('#userdata');
 
 		MAKE('common', function(obj) {
 			obj.page = '';
@@ -38,6 +41,12 @@
 			// Codelists
 			obj.cl = {};
 			obj.cl.navigation = [{ id: 'users', name: '@(Users)', title: '@(List of users)', icon: 'users' }, { name: '@(Directory)', children: [{ id: 'settings', name: '@(Settings)' }] }];
+		});
+
+		// Adds auth-token to each request
+		ON('request', function(options) {
+			if (options.url.indexOf('.') === -1)
+				options.url = OP.tokenizator(options.url);
 		});
 
 		PLUGIN('main', function(exports) {
