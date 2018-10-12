@@ -25,6 +25,7 @@ AUTH(function(req, res, flags, next) {
 				MAIN.sessions[tmp.id] = tmp;
 				MAIN.sessions[id] = tmp;
 				tmp.nextreload = NOW.add('5 minutes');
+				next(true, tmp);
 			} else
 				next(false);
 
