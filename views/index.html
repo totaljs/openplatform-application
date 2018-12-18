@@ -23,10 +23,8 @@
 	</div>
 
 	<div class="body">
-		<div class="scroller">
-			<div data-jc="part__common.page__if:users;url:@{#}/parts/users.html;reload:users/reload" class="hidden"></div>
-			<div data-jc="part__common.page__if:settings;url:@{#}/parts/settings.html;reload:settings/reload" class="hidden"></div>
-		</div>
+		<div data-jc="part__common.page__if:users;url:@{#}/parts/users.html;reload:users/reload" class="hidden"></div>
+		<div data-jc="part__common.page__if:settings;url:@{#}/parts/settings.html;reload:settings/reload" class="hidden"></div>
 	</div>
 
 	@{json(user, 'userdata')}
@@ -40,8 +38,10 @@
 
 			// Codelists
 			obj.cl = {};
-			obj.cl.navigation = [{ id: 'users', name: '@(Users)', title: '@(List of users)', icon: 'users' }, { name: '@(Directory)', children: [{ id: 'settings', name: '@(Settings)' }] }];
+			obj.cl.navigation = [{ id: 'users', name: '@(Users)', title: '@(List of users)', icon: 'users' }, { name: '@(Directory)', children: [{ id: 'settings', name: '@(Settings)', icon: 'cog' }] }];
 		});
+
+		OP.appearance();
 
 		// Adds auth-token to each request
 		ON('request', function(options) {

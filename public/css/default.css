@@ -2,27 +2,71 @@
 
 html,body { overflow: hidden; margin: 0; padding: 0; color: #303030; }
 
-.b { font-weight: bold; }
-.ui-navigation { padding: 19px 0 0; }
-
-.mainmenu { float: left; width: 240px; background-color: #F0F0F0; padding: 0 0 10px; transition: all 0.3s; }
+.mainmenu { float: left; width: 240px; background-color: #F0F0F0; padding: 0 0 10px; transition: left 0.3s; }
 .mainmenu-visible { left: 0 !important; }
 .mainmenu-panel { height: 56px; border-bottom: 1px solid #D0D0D0; }
 
-.body { margin-left: 220px; position: relative; background: url(../img/preloader.gif) no-repeat 50% 50%; }
-.padding { padding: 15px 20px; }
-.hidden { display: none; }
+.opdark .mainmenu { background-color: #252525; }
+
+.button { background-color: #2157E2; color: white; font-size: 12px; height: 34px; padding: 0 20px; margin: 0; border: 0; border-radius: 3px; display: block; width: 100%; }
+.button:hover { opacity: 0.9; }
+.button:disabled { opacity: 1; background-color: #D0D0D0; color: #A0A0A0; cursor: not-allowed; }
+.opdark .button:disabled { background-color: #404040; }
+.button .fa { margin-right: 5px; }
+
+.buttonbar { background-color: #F0F0F0; height: 50px; position: absolute; bottom: 0; left: 0; right: 0; }
+.opdark .buttonbar { background-color: #303030; }
+.buttonbar .button { height: 50px; border-radius: 0; font-size: 12px; border: 0; max-width: 200px; float: left; margin-right: 10px; }
+.buttonbar .button i { margin-right: 8px; }
+.buttonbar > span { line-height: 50px; display: inline-block; color: gray; font-size: 12px; cursor: pointer; margin-left: 10px; }
+.buttonbar > span i { margin-right: 5px; }
+.buttonbar > span:hover { text-decoration: underline; }
+
+.toolbar { height: 50px; padding: 10px 15px 0; border-bottom: 1px solid #E0E0E0; }
+.opdark .toolbar { border-color: #303030; }
+.toolbar button { outline: 0; background-color: #F0F0F0; border: 1px solid transparent; border: 1px solid #E0E0E0; border-left: 0; font-size: 11px; height: 28px; padding: 0 8px; margin: 0; color: black; min-width: 80px; vertical-align: top; }
+.toolbar button .fa, .toolbar button .fal, .toolbar button .far { margin-right: 5px; }
+.toolbar button .fa-plus-circle, .toolbar button .fa-check-circle { color: #68B25B; }
+.toolbar button:hover { background-color: #E9E9E9; border-color: #E0E0E0; }
+.toolbar button:first-child { border-left: 1px solid #E0E0E0; border-top-left-radius: 3px; border-bottom-left-radius: 3px; }
+.toolbar button:last-child { border-top-right-radius: 3px; border-bottom-right-radius: 3px; }
+.toolbar button:disabled { color: silver; cursor: not-allowed; background-color: #E8E8E8; border-color: #E0E0E0 !important; box-shadow: none; }
+.toolbar button:disabled i { color: silver; }
+.toolbar button.right { float: right; margin-left: 5px; margin-right: 0; }
+.toolbar .highlight { background-color: #FFFFD5; }
+
+.opdark .toolbar button { background-color: #282828; color: white; border-color: #333333; }
+.opdark .toolbar button:first-child { border-left-color: #333333; }
+.opdark .toolbar button:hover { background-color: #323232; border-color: #353535; }
+.opdark .toolbar button:disabled { color: #505050; background-color: #252525; border-color: #333333 !important; }
+.opdark .toolbar button:disabled i { color: #505050; }
+
+.filter .ui-dropdown { height: 26px; }
+.filter .ui-dropdown-values { height: 25px; line-height: 24px; }
+.filter .ui-dropdown select { font-size: 11px; height: 20px; margin-left: -2px; margin-top: 2px; }
+.filter .ui-dropdown:after { margin-left: -20px; }
+.filter .ui-textbox { height: 26px; }
+.filter .ui-textbox-input { padding-top: 2px; }
+.filter .ui-textbox-input input { font-size: 11px; height: 20px; }
+.filter .ui-textbox-control { width: 28px; font-size: 12px; padding-top: 2px; }
+
+.body { margin-left: 240px; position: relative; }
+.padding { padding: 15px; }
 .scroller { overflow-y: auto; overflow-x: hidden; overflow-scrolling: touch; }
 
 .help { font-size: 11px; color: #909090; margin-top: 8px; line-height: 13px; }
-.help .fa, .help .fal, .help .far { margin-right: 5px; }
+.help i { margin-right: 5px; }
 .help code { font: normal normal 11px Arial; background-color: #F0F0F0; padding: 1px 3px; border-radius: 2px; border: 1px solid #E0E0E0; }
 
+.opdark .help { color: #505050; }
+.opdark .help code { background-color: #353535; border-color: #303030; color: #777777; }
+.opdark .help .link { color: #79d0ff; }
+
+.b { font-weight: bold; }
 .nmt { margin-top: 0; }
 .nmb { margin-bottom : 0; }
 .npt { padding-top: 0; }
 .npb { padding-bottom: 0; }
-.padding { padding: 20px; }
 .mt5 { margin-top: 5px; }
 .center { text-align: center; }
 .right { text-align: right; }

@@ -1,14 +1,19 @@
-<div data-jc="viewbox__null__height:100;selector:.scroller" class="ui-viewbox-hidden">
-	<div class="padding">
-		List of users
+<div class="toolbar">
+	<button class="b" title="Add"><i class="fa fa-plus-circle"></i>Add</button>
+	<button><i class="fa fa-cog"></i>Options</button>
+</div>
+<div class="scroller" data-margin="50">
+	<div data-jc="viewbox__null__height:100;selector:.scroller" class="ui-viewbox-hidden">
+		<div class="padding">
+			Users
+		</div>
 	</div>
 </div>
 
 <script>
-
 	PLUGIN('users', function(exports) {
 		exports.reload = function() {
+
 		};
 	});
-
 </script>

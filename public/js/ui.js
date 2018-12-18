@@ -8,6 +8,8 @@ COMPONENT('exec', function(self, config) {
 			var attr = el.attrd('exec');
 			var path = el.attrd('path');
 			var href = el.attrd('href');
+			var def = el.attrd('def');
+			var reset = el.attrd('reset');
 
 			if (el.attrd('prevent') === 'true') {
 				e.preventDefault();
@@ -16,6 +18,8 @@ COMPONENT('exec', function(self, config) {
 
 			attr && EXEC(attr, el, e);
 			href && NAV.redirect(href);
+			def && DEFAULT(def);
+			reset && RESET(reset);
 
 			if (path) {
 				var val = el.attrd('value');
@@ -57,7 +61,7 @@ COMPONENT('part', 'hide:true', function(self, config) {
 			config.default && DEFAULT(config.default, true);
 
 		} else {
-			SETTER('loading', 'show');
+			FUNC.loading(true);
 			setTimeout(function() {
 				self.import(config.url, function() {
 					if (!init) {
@@ -66,9 +70,17 @@ COMPONENT('part', 'hide:true', function(self, config) {
 					}
 					config.reload && EXEC(config.reload);
 					config.default && DEFAULT(config.default, true);
-					SETTER('loading', 'hide', 500);
+					FUNC.loading(false, 500);
 				});
-			}, 200);
+			}, 10);
+		}
+	};
+
+	self.configure = function(key, value) {
+		switch (key) {
+			case 'if':
+				config.if = value + '';
+				break;
 		}
 	};
 
@@ -76,7 +88,7 @@ COMPONENT('part', 'hide:true', function(self, config) {
 		if (self.hclass('hidden')) {
 			config.clean && EXEC(config.clean);
 			setTimeout(function() {
-				self.element.empty();
+				self.empty();
 				init = false;
 				clid = null;
 				setTimeout(FREE, 1000);
@@ -174,7 +186,7 @@ COMPONENT('viewbox', function(self, config) {
 		self.css('height', h);
 		self.element.SETTER('*', 'resize');
 		var cls = 'ui-viewbox-hidden';
-		self.hclass(cls) && self.rclass(cls, 1000);
+		self.hclass(cls) && self.rclass(cls, 100);
 	};
 
 });
