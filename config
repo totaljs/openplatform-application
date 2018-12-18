@@ -3,4 +3,4 @@ author                : You company name
 version               : 1.0.1
 cdn                   : //cdn.componentator.com
 
-allow-custom-titles   : true
+allow_custom_titles   : true
