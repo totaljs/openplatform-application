@@ -8,7 +8,7 @@ html,body { overflow: hidden; margin: 0; padding: 0; color: #303030; }
 
 .opdark .mainmenu { background-color: #252525; }
 
-.button { background-color: #2157E2; color: white; font-size: 12px; height: 34px; padding: 0 20px; margin: 0; border: 0; border-radius: 3px; display: block; width: 100%; }
+.button { background-color: #4285f4; color: white; font-size: 12px; height: 34px; padding: 0 20px; margin: 0; border: 0; border-radius: 3px; display: block; width: 100%; }
 .button:hover { opacity: 0.9; }
 .button:disabled { opacity: 1; background-color: #D0D0D0; color: #A0A0A0; cursor: not-allowed; }
 .opdark .button:disabled { background-color: #404040; }
@@ -40,6 +40,8 @@ html,body { overflow: hidden; margin: 0; padding: 0; color: #303030; }
 .opdark .toolbar button:hover { background-color: #323232; border-color: #353535; }
 .opdark .toolbar button:disabled { color: #505050; background-color: #252525; border-color: #333333 !important; }
 .opdark .toolbar button:disabled i { color: #505050; }
+
+.opdark hr { border-color: #181818; }
 
 .filter .ui-dropdown { height: 26px; }
 .filter .ui-dropdown-values { height: 25px; line-height: 24px; }
