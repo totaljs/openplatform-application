@@ -8,8 +8,8 @@
 .ui-navigation-item .ui-navigation-children i:before { content: '\f07b'; color: gray; }
 .ui-navigation-selected { background-color: #D0D0D0; }
 
-.opdark .ui-navigation-item span { color: white; }
-.opdark .ui-navigation-selected { background-color: #353535; }
+.ui-dark .ui-navigation-item span { color: white; }
+.ui-dark .ui-navigation-selected { background-color: #353535; }
 
 .ui-navigation-show > div { display: block; }
 .ui-navigation-show > span {}
