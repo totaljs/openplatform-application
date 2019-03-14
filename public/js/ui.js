@@ -2,33 +2,66 @@ COMPONENT('exec', function(self, config) {
 	self.readonly();
 	self.blind();
 	self.make = function() {
-		self.event('click', config.selector || '.exec', function(e) {
-			var el = $(this);
 
-			var attr = el.attrd('exec');
-			var path = el.attrd('path');
-			var href = el.attrd('href');
-			var def = el.attrd('def');
-			var reset = el.attrd('reset');
+		var scope = null;
 
-			if (el.attrd('prevent') === 'true') {
-				e.preventDefault();
-				e.stopPropagation();
-			}
+		var scopepath = function(el, val) {
+			if (!scope)
+				scope = el.scope();
+			return scope ? scope.makepath ? scope.makepath(val) : val.replace(/\?/g, el.scope().path) : val;
+		};
 
-			attr && EXEC(attr, el, e);
-			href && NAV.redirect(href);
-			def && DEFAULT(def);
-			reset && RESET(reset);
+		var fn = function(plus) {
+			return function(e) {
 
-			if (path) {
-				var val = el.attrd('value');
-				if (val) {
-					var v = GET(path);
-					SET(path, new Function('value', 'return ' + val)(v), true);
+				var el = $(this);
+				var attr = el.attrd('exec' + plus);
+				var path = el.attrd('path' + plus);
+				var href = el.attrd('href' + plus);
+				var def = el.attrd('def' + plus);
+				var reset = el.attrd('reset' + plus);
+
+				scope = null;
+
+				if (el.attrd('prevent' + plus) === 'true') {
+					e.preventDefault();
+					e.stopPropagation();
 				}
-			}
-		});
+
+				if (attr) {
+					if (attr.indexOf('?') !== -1)
+						attr = scopepath(el, attr);
+					EXEC(attr, el, e);
+				}
+
+				href && NAV.redirect(href);
+
+				if (def) {
+					if (def.indexOf('?') !== -1)
+						def = scopepath(el, def);
+					DEFAULT(def);
+				}
+
+				if (reset) {
+					if (reset.indexOf('?') !== -1)
+						reset = scopepath(el, reset);
+					RESET(reset);
+				}
+
+				if (path) {
+					var val = el.attrd('value');
+					if (val) {
+						if (path.indexOf('?') !== -1)
+							path = scopepath(el, path);
+						var v = GET(path);
+						SET(path, new Function('value', 'return ' + val)(v), true);
+					}
+				}
+			};
+		};
+
+		self.event('dblclick', config.selector2 || '.exec2', fn('2'));
+		self.event('click', config.selector || '.exec', fn(''));
 	};
 });
 
@@ -36,15 +69,24 @@ COMPONENT('part', 'hide:true', function(self, config) {
 
 	var init = false;
 	var clid = null;
+	var downloading = false;
 
+	self.releasemode && self.releasemode('true');
 	self.readonly();
+
 	self.setter = function(value) {
 
 		if (config.if !== value) {
-			config.hidden && !self.hclass('hidden') && EXEC(config.hidden);
-			config.hide && self.aclass('hidden');
+
+			if (!self.hclass('hidden')) {
+				config.hidden && EXEC(config.hidden);
+				config.hide && self.aclass('hidden');
+				self.release(true);
+			}
+
 			if (config.cleaner && init && !clid)
 				clid = setTimeout(self.clean, config.cleaner * 60000);
+
 			return;
 		}
 
@@ -57,22 +99,40 @@ COMPONENT('part', 'hide:true', function(self, config) {
 				clid = null;
 			}
 
+			self.release(false);
 			config.reload && EXEC(config.reload);
 			config.default && DEFAULT(config.default, true);
 
+			setTimeout(function() {
+				self.element.SETTER('*', 'resize');
+			}, 200);
+
 		} else {
-			FUNC.loading(true);
+
+			if (downloading)
+				return;
+
+			SETTER('loading', 'show');
+			downloading = true;
 			setTimeout(function() {
 				self.import(config.url, function() {
+					downloading = false;
+
 					if (!init) {
 						config.init && EXEC(config.init);
 						init = true;
 					}
+
+					self.release(false);
 					config.reload && EXEC(config.reload);
 					config.default && DEFAULT(config.default, true);
-					FUNC.loading(false, 500);
+					SETTER('loading', 'hide', 500);
+
+					setTimeout(function() {
+						self.element.SETTER('*', 'resize');
+					}, 200);
 				});
-			}, 10);
+			}, 200);
 		}
 	};
 
@@ -152,46 +212,131 @@ COMPONENT('importer', function(self, config) {
 	};
 });
 
-COMPONENT('viewbox', 'margin:0;scroll:true', function(self, config) {
+COMPONENT('viewbox', 'margin:0;scroll:true;delay:100;scrollbar:false;visibleY:true', function(self, config) {
 
-	var eld;
+	var eld, elb;
+	var scrollbar;
+	var cls = 'ui-viewbox';
+	var cls2 = '.' + cls;
+	var sw = SCROLLBARWIDTH();
 
 	self.readonly();
 
 	self.init = function() {
-		OP.on('resize', function() {
-			SETTER('viewbox', 'resize');
+		var obj;
+		if (W.OP)
+			obj = W.OP;
+		else
+			obj = $(W);
+		obj.on('resize', function() {
+			for (var i = 0; i < M.components.length; i++) {
+				var com = M.components[i];
+				if (com.name === 'viewbox' && com.dom.offsetParent && com.$ready && !com.$removed)
+					com.resize();
+			}
 		});
 	};
 
-	self.configure = function(key, value) {
+	self.configure = function(key, value, init) {
 		switch (key) {
 			case 'disabled':
 				eld.tclass('hidden', !value);
 				break;
-			case 'scroll':
-				self.tclass('ui-viewbox-scroll', !!value);
+			case 'minheight':
+				!init && self.resize();
+				break;
+			case 'selector': // backward compatibility
+				config.parent = value;
+				self.resize();
 				break;
 		}
 	};
 
+	self.scrollbottom = function(val) {
+		if (val == null)
+			return elb[0].scrollTop;
+		elb[0].scrollTop = (elb[0].scrollHeight - self.dom.clientHeight) - (val || 0);
+		return elb[0].scrollTop;
+	};
+
+	self.scrolltop = function(val) {
+		if (val == null)
+			return elb[0].scrollTop;
+		elb[0].scrollTop = (val || 0);
+		return elb[0].scrollTop;
+	};
+
 	self.make = function() {
+		config.scroll && MAIN.version > 17 && self.element.wrapInner('<div class="ui-viewbox-body"></div>');
 		self.element.prepend('<div class="ui-viewbox-disabled hidden"></div>');
-		eld = self.find('> .ui-viewbox-disabled').eq(0);
-		self.aclass('ui-viewbox ui-viewbox-hidden');
+		eld = self.find('> .{0}-disabled'.format(cls)).eq(0);
+		elb = self.find('> .{0}-body'.format(cls)).eq(0);
+		self.aclass('{0} {0}-hidden'.format(cls));
+		if (config.scroll) {
+			if (config.scrollbar) {
+				if (MAIN.version > 17) {
+					scrollbar = window.SCROLLBAR(self.find(cls2 + '-body'), { visibleY: config.visibleY, visibleX: config.visibleX, parent: self.element });
+					self.scrolltop = scrollbar.scrollTop;
+					self.scrollbottom = scrollbar.scrollBottom;
+				} else
+					self.aclass(cls + '-scroll');
+			} else {
+				self.aclass(cls + '-scroll');
+				sw && self.find(cls2 + '-body').css('padding-right', sw);
+			}
+		}
 		self.resize();
 	};
 
-	self.resize = function() {
-		var el = config.selector ? self.element.closest(config.selector) : self.parent();
-		var h = ((el.height() / 100) * config.height) - config.margin;
-		eld.css({ height: h, width: self.element.width() });
-		self.css('height', h);
-		self.element.SETTER('*', 'resize');
-		var cls = 'ui-viewbox-hidden';
-		self.hclass(cls) && self.rclass(cls, 100);
+	self.released = function(is) {
+		!is && self.resize();
 	};
 
+	var css = {};
+
+	self.resize = function() {
+
+		if (self.release())
+			return;
+
+		var el = config.parent ? config.parent === 'window' ? $(window) : self.element.closest(config.parent) : self.parent();
+		var h = el.height();
+		var w = el.width();
+
+		if (h === 0 || w === 0) {
+			self.$waiting && clearTimeout(self.$waiting);
+			self.$waiting = setTimeout(self.resize, 234);
+			return;
+		}
+
+		h = ((h / 100) * config.height) - config.margin;
+
+
+		if (config.minheight && h < config.minheight)
+			h = config.minheight;
+
+		css.height = h;
+		css.width = self.element.width();
+		eld.css(css);
+
+		css.width = null;
+		self.css(css);
+
+		if (config.scroll && !config.scrollbar)
+			css.width = w + sw;
+
+		elb.length && elb.css(css);
+		self.element.SETTER('*', 'resize');
+		var c = cls + '-hidden';
+		self.hclass(c) && self.rclass(c, 100);
+
+		if (scrollbar)
+			scrollbar.resize();
+	};
+
+	self.setter = function() {
+		setTimeout(self.resize, config.delay);
+	};
 });
 
 COMPONENT('navigation', function(self, config) {

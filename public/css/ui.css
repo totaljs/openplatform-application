@@ -16,10 +16,9 @@
 .ui-navigation-show > span i:before { content: '\f07c' !important; }
 .ui-navigation-level-1, .ui-navigation-level-2, .ui-navigation-level-3, .ui-navigation-level-4 { padding-left: 21px; }
 
-.ui-viewbox { overflow: hidden; }
-.ui-viewbox-disabled { z-index: 5; position: absolute; background-color: rgba(255,255,255,0.8); }
-.ui-viewbox-hidden { visibility: hidden; }
-.ui-viewbox-scroll { overflow-y: scroll; overflow-scrolling: touch; }
+.ui-dark .ui-navigation-item span { color: #A0A0A0; }
+.ui-dark .ui-navigation-selected { background-color: #353535; }
+.ui-dark .ui-navigation-selected span { color: white; }
 
 @media(max-width: 500px) {
 	.ui-navigation-item { font-size: 16px; }

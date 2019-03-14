@@ -9,9 +9,9 @@
 	<meta name="format-detection" content="telephone=no" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="robots" content="all,follow" />
-	<link href="@{'%cdn'}/spa.min@16.css" rel="stylesheet" />
-	<script src="@{'%cdn'}/spa.min@16.js"></script>
-	<script src="@{'%cdn'}/openplatform.min@3.js"></script>
+	<link href="@{'%cdn'}/spa.min@17.css" rel="stylesheet" />
+	<script src="@{'%cdn'}/spa.min@17.js"></script>
+	<script src="@{'%cdn'}/openplatform.min@4.js"></script>
 	@{import('meta', 'head', 'default.js', 'default.css', 'favicon.ico')}
 </head>
 <body data-jc="exec" data-bind="common.ready__invisible:!value" class="invisible">
@@ -23,8 +23,10 @@
 	</div>
 
 	<div class="body">
-		<div data-jc="part__common.page__if:users;url:@{#}/parts/users.html;reload:users/reload" class="hidden"></div>
-		<div data-jc="part__common.page__if:settings;url:@{#}/parts/settings.html;reload:settings/reload" class="hidden"></div>
+		<div class="scroller">
+			<div data-jc="part__common.page__if:users;url:@{#}/parts/users.html;reload:users/reload" class="hidden"></div>
+			<div data-jc="part__common.page__if:settings;url:@{#}/parts/settings.html;reload:settings/reload" class="hidden"></div>
+		</div>
 	</div>
 
 	@{json(user, 'userdata')}
@@ -42,12 +44,6 @@
 		});
 
 		OP.appearance();
-
-		// Adds auth-token to each request
-		ON('request', function(options) {
-			if (options.url.indexOf('.') === -1)
-				options.url = OP.tokenizator(options.url);
-		});
 
 		PLUGIN('main', function(exports) {
 
