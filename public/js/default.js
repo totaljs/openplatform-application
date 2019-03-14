@@ -47,6 +47,10 @@ OP.init(function(err) {
 		document.body.innerHTML = '401';
 		return;
 	}
+	ON('request', function() {
+		// Sets cookie
+		COOKIES.set('openplatform', OP.token, '5 days', 'lax');
+	});
 	SET('common.ready', true);
 	SET('common.state', 'ready');
 });

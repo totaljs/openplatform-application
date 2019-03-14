@@ -1,11 +1,13 @@
 AUTH(function(req, res, flags, next) {
 
-	var op = req.query.openplatform;
+	var op = req.query.openplatform || req.cookie('openplatform');
 
 	if (!op || op.length < 20) {
 		next(false);
 		return;
 	}
+
+	req.query.openplatform = undefined;
 
 	var id = op.hash();
 
