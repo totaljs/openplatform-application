@@ -14,22 +14,22 @@
 	<script src="@{'%cdn'}/openplatform.min@4.js"></script>
 	@{import('meta', 'head', 'default.js', 'default.css', 'favicon.ico')}
 </head>
-<body data-jc="exec" data-bind="common.ready__invisible:!value" class="invisible">
+<body data---="exec" data-bind="common.ready__invisible:!value" class="invisible">
 
 	<div class="mainmenu">
 		<div class="scroller">
-			<div data-jc="navigation__common.page__datasource:common.cl.navigation;autoselect:true"></div>
+			<div data---="navigation__common.page__datasource:common.cl.navigation;autoselect:true"></div>
 		</div>
 	</div>
 
 	<div class="body">
 		<div class="scroller">
-			<div data-jc="part__common.page__if:users;url:@{#}/parts/users.html;reload:users/reload" class="hidden"></div>
-			<div data-jc="part__common.page__if:settings;url:@{#}/parts/settings.html;reload:settings/reload" class="hidden"></div>
+			<div data---="part__common.page__if:users;url:@{#}/parts/users.html;reload:users/reload" class="hidden"></div>
+			<div data---="part__common.page__if:settings;url:@{#}/parts/settings.html;reload:settings/reload" class="hidden"></div>
 		</div>
 	</div>
 
-	@{json(user, 'userdata')}
+	@{json(user.copy('id', 'photo', 'name', 'roles', 'filter', 'sa'), 'userdata')}
 
 	<script>
 
@@ -43,8 +43,6 @@
 			obj.cl.navigation = [{ id: 'users', name: '@(Users)', title: '@(List of users)', icon: 'users' }, { name: '@(Directory)', children: [{ id: 'settings', name: '@(Settings)', icon: 'cog' }] }];
 		});
 
-		OP.appearance();
-
 		PLUGIN('main', function(exports) {
 
 		});
@@ -53,6 +51,9 @@
 		WATCH('common.page', function() {
 			$('.mainmenu').rclass('mainmenu-visible');
 		});
+
+		// Enables OP themes
+		OP.appearance();
 
 	</script>
 

@@ -1,5 +1,3 @@
 exports.install = function() {
-	GROUP(['authorize'], function() {
-		ROUTE('/*');
-	});
+	ROUTE('/*', ['authorize']);
 };

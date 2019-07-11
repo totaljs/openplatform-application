@@ -1,6 +1,8 @@
 name                  : OpenPlatform Test App
-author                : You company name
-version               : 1.0.1
+author                : Total Avengers
+version               : 1.0.0
 cdn                   : //cdn.componentator.com
 
 allow_custom_titles   : true
+
+// database              : postgres://USER:PASS@localhost:5432/DB_NAME

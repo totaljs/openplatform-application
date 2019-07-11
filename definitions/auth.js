@@ -1,52 +1,42 @@
-AUTH(function(req, res, flags, next) {
+// Initialization for each instance of OpenPlatform
+// Checks if the OP is not blocked
+OP.init = function(platform, next) {
+	// Continue
+	next();
+};
 
-	var op = req.query.openplatform || req.cookie('openplatform');
+// Total.js Authorization
+AUTH(function($) {
 
+	var op = $.query.openplatform;
 	if (!op || op.length < 20) {
-		next(false);
+		$.invalid();
 		return;
 	}
 
-	req.query.openplatform = undefined;
+	$.query.openplatform = undefined;
 
-	var id = op.hash();
+	var opt = {};
+	opt.url = op;
 
-	if (MAIN.sessions[id] && MAIN.sessions[id].nextreload > NOW) {
-		next(true, MAIN.sessions[id]);
-		return;
-	}
+	OP.users.auth(opt, function(err, user, type, cached, raw) {
 
-	RESTBuilder.make(function(builder) {
-		builder.url(op);
-		builder.exec(function(err, user) {
-			if (user.id) {
-				var tmp = user.profile;
-				tmp.expire = NOW.add('1 day');
-				tmp.openplatformid = user.openplatformid;
-				tmp.sessions = 0;
-				MAIN.sessions[tmp.id] = tmp;
-				MAIN.sessions[id] = tmp;
-				tmp.nextreload = NOW.add('5 minutes');
-				next(true, tmp);
-			} else
-				next(false);
+		// type 0 : from session
+		// type 1 : profile downloaded from OP without OP meta data
+		// type 2 : profile downloaded from OP with meta data
+		// cached : means that meta data of OP has been downloaded before this call
 
-		});
+		// A simple hack for quick synchronization of the current user
+
+		if (type) {
+			user.filter.push(user.id);
+			user.admin = user.sa || user.roles.indexOf('admin') !== -1;
+		}
+
+		if (user) {
+			user.language && ($.req.$language = user.language);
+			$.success(user);
+		} else
+			$.invalid();
 	});
-
-});
-
-// Clears expired sessions
-ON('service', function(counter) {
-
-	// Each 10 minutes
-	if (counter % 10 !== 0)
-		return;
-
-	var keys = Object.keys(MAIN.sessions);
-	for (var i = 0; i < keys.length; i++) {
-		var session = MAIN.sessions[keys[i]];
-		if (session.expire < NOW)
-			delete MAIN.sessions[keys[i]];
-	}
 });
