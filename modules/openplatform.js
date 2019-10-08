@@ -41,10 +41,26 @@ OP.users = {};
 OP.sessions = {};
 OP.platforms = {};
 OP.blocked = {};
+OP.services = {};
 
 // Internal error handling
 OP.error = function(method, err) {
 	console.log('Error: OP.' + method, err);
+};
+
+OP.services.init = function(meta, next) {
+	// meta.id
+	// meta.openplatformid
+	// meta.directoryid
+	// meta.userid
+	// meta.verifytoken
+	// meta.servicetoken
+	// next(null, true);
+	next(null, false);
+};
+
+OP.services.pay = function(controller, callback) {
+
 };
 
 OP.users.autosync = function(interval, init, options, process, done, before) {
@@ -298,8 +314,8 @@ OP.users.sync = function(options, process, done) {
 			if (options.reference)
 				filter.reference = options.reference;
 
-			if (options.online)
-				filter.online = 'true';
+			if (options.isonline)
+				filter.isonline = 'true';
 
 			if (options.logged)
 				filter.logged = options.logged;
@@ -419,6 +435,7 @@ function OpenPlatformUser(profile, platform) {
 	self.statusid = profile.statusid;
 	self.timeformat = profile.timeformat;
 	self.dtlogged = NOW;
+	self.online = profile.online;
 
 	// Internal
 	self.profile = profile;
