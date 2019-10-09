@@ -1,3 +1,5 @@
+const Fs = require('fs');
+
 // Constants
 const FLAGS = ['get'];
 const FLAGSNOTIFY = ['post', 'json'];
@@ -7,6 +9,7 @@ const BLOCKEDTIMEOUT = '15 minutes';
 const SESSIONINTERVAL = 7; // in minutes
 const AUTOSYNCINTERVAL = 2; // in minutes
 const LIMIT = 100; // max. items per page
+const ERR_SERVICES_TOKEN = 'OpenPlatform token is invalid.';
 
 // Variables
 var OP = global.OP = {};
@@ -19,7 +22,16 @@ FILE('/openplatform.json', function(req, res) {
 	res.file(PATH.root('openplatform.json'));
 });
 
-OP.version = 1.004;
+OP.version = 1.006;
+OP.meta = null;
+
+Fs.readFile(PATH.root('openplatform.json'), function(err, data) {
+	if (data) {
+		OP.meta = data.toString('utf8').parseJSON(true);
+		if (OP.meta)
+			OP.meta.save = () => Fs.writeFile(PATH.root('openplatform.json'), JSON.stringify(OP.meta, null, '\t'), NOOP);
+	}
+});
 
 OP.init = function(meta, next) {
 	next(null, meta);
@@ -48,21 +60,6 @@ OP.error = function(method, err) {
 	console.log('Error: OP.' + method, err);
 };
 
-OP.services.init = function(meta, next) {
-	// meta.id
-	// meta.openplatformid
-	// meta.directoryid
-	// meta.userid
-	// meta.verifytoken
-	// meta.servicetoken
-	// next(null, true);
-	next(null, false);
-};
-
-OP.services.pay = function(controller, callback) {
-
-};
-
 OP.users.autosync = function(interval, init, options, process, done, before) {
 	autosyncitems.push({ id: 'autosync' + GUID(10), interval: interval, init: init, options: options, process: process, done: done, before: before });
 };
@@ -80,8 +77,54 @@ function initpending(platform, err) {
 	platform.pending.length = 0;
 }
 
+OP.services.init = function(meta, next) {
+	// meta.id
+	// meta.openplatformid
+	// meta.directoryid
+	// meta.userid
+	// meta.verifytoken
+	// meta.servicetoken
+	// next(null, true);
+	next(null, false);
+};
+
+OP.services.check = function(controller, callback) {
+
+	var arr = (controller.headers['x-openplatform'] || '').split('-');
+
+	if (!arr[0] && !arr[3]) {
+		controller.invalid('error-openplatform-token', ERR_SERVICES_TOKEN);
+		return;
+	}
+
+	var meta = {};
+	meta.openplatformid = arr[0];
+	meta.directoryid = arr[1];
+	meta.verifytoken = arr[2];
+	meta.userid = arr[3];
+	meta.servicetoken = arr[4];
+
+	if (meta.verifytoken || meta.directoryid)
+		meta.id = (meta.openplatformid + '-' + (meta.verifytoken || '0') + '-' + (meta.directoryid || '0')).crc32(true);
+
+	var id = meta.id + '';
+	var platform = OP.platforms[id];
+	if (platform == null) {
+		OP.services.init(meta, function(err, is) {
+			if (is)
+				callback(err, meta);
+			else
+				controller.invalid('error-openplatform-token', ERR_SERVICES_TOKEN);
+		});
+	} else if (platform.id == id && platform.servicetoken === meta.servicetoken)
+		callback(null, meta);
+	else
+		controller.invalid('error-openplatform-token', ERR_SERVICES_TOKEN);
+
+};
+
 // Users
-OP.users.auth = function(options, callback) {
+OP.auth = OP.users.auth = function(options, callback) {
 
 	// options.url {String}
 	// options.expire {String}
@@ -141,7 +184,9 @@ OP.users.auth = function(options, callback) {
 				platform.urlmeta = meta.meta;
 				platform.users = meta.users;
 				platform.apps = meta.apps;
-				platform.serialnumber = meta.serialnumber;
+				platform.services = meta.services;
+				platform.servicetoken = meta.servicetoken;
+				platform.sn = meta.sn;
 				platform.settings = meta.settings || EMPTYOBJECT;
 				platform.dtsync = NOW;
 				platform.isloading = true;
@@ -156,7 +201,7 @@ OP.users.auth = function(options, callback) {
 				return;
 			}
 
-			profile.filter = [];
+			profile.filter = [profile.id];
 
 			if (profile.roles) {
 				for (var i = 0; i < profile.roles.length; i++)
@@ -188,7 +233,8 @@ OP.users.auth = function(options, callback) {
 					platform.urlmeta = meta.meta;
 					platform.users = meta.users;
 					platform.apps = meta.apps;
-					platform.serialnumber = meta.serialnumber;
+					platform.services = meta.services;
+					platform.sn = meta.sn;
 					platform.settings = meta.settings || EMPTYOBJECT;
 				}
 
@@ -314,8 +360,8 @@ OP.users.sync = function(options, process, done) {
 			if (options.reference)
 				filter.reference = options.reference;
 
-			if (options.isonline)
-				filter.isonline = 'true';
+			if (options.online)
+				filter.online = 'true';
 
 			if (options.logged)
 				filter.logged = options.logged;
@@ -365,14 +411,11 @@ OP.users.notify = function(url, msg, callback) {
 	if (msg.type == null)
 		msg.type = 1;
 
-	if (msg.type == null)
-		msg.type = 1;
-
 	var cb = callback ? function(err, response) {
 		callback(err, response.parseJSON(true));
 	} : null;
 
-	REQUEST(session.profile.notify, FLAGSNOTIFY, msg, cb);
+	REQUEST(url, FLAGSNOTIFY, msg, cb);
 };
 
 OP.users.badge = function(url, callback) {
@@ -435,7 +478,6 @@ function OpenPlatformUser(profile, platform) {
 	self.statusid = profile.statusid;
 	self.timeformat = profile.timeformat;
 	self.dtlogged = NOW;
-	self.online = profile.online;
 
 	// Internal
 	self.profile = profile;
@@ -443,6 +485,36 @@ function OpenPlatformUser(profile, platform) {
 }
 
 const OPU = OpenPlatformUser.prototype;
+
+OPU.permit = function(type, arr) {
+
+	var self = this;
+	if (!arr.length)
+		return type;
+
+	type = type.split('');
+	for (var i = 0; i < self.filter.length; i++) {
+		for (var j = 0; j < type.length; j++) {
+			if (arr.indexOf(type[j] + self.filter[i]) !== -1)
+				return type[j];
+		}
+	}
+};
+
+OPU.permissions = function(type, arr) {
+	var self = this;
+	if (!arr || !arr.length)
+		return type;
+	type = type.split('');
+	var permissions = {};
+	for (var i = 0; i < self.filter.length; i++) {
+		for (var j = 0; j < type.length; j++) {
+			if (arr.indexOf(type[j] + self.filter[i]) !== -1)
+				permissions[type[j]] = 1;
+		}
+	}
+	return Object.keys(permissions).join('');
+};
 
 OPU.copy = function() {
 	var obj = {};
@@ -490,6 +562,10 @@ OPU.badge = function(callback) {
 
 OPU.logout = function() {
 	return OP.users.logout(this);
+};
+
+OPU.service = function(app, service, data, callback) {
+	RESTBuilder.POST(this.platform.services + '&app=' + app + '&service=' + service, data).callback(callback);
 };
 
 OPU.cl = function() {
