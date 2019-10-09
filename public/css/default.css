@@ -1,6 +1,6 @@
 /*auto*/
 
-html,body { overflow: hidden; margin: 0; padding: 0; color: #303030; }
+html,body { margin: 0; padding: 0; color: #303030; }
 
 .mainmenu { float: left; width: 240px; background-color: #F0F0F0; padding: 0 0 10px; transition: left 0.3s; }
 .mainmenu-visible { left: 0 !important; }
