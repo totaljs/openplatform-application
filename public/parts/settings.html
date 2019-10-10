@@ -1,21 +1,12 @@
-<div class="toolbar">
-	<button class="b" title="Add"><i class="fa fa-plus-circle"></i>@(Add)</button>
-	<button><i class="fa fa-cog"></i>@(Options)</button>
+<div class="padding">
+	@(Settings)
 </div>
-<div data---="viewbox__null__height:100;selector:.body;margin:100;scroll:true" class="ui-viewbox-hidden">
-	<div class="padding">
-		@(Settings)
-	</div>
-</div>
-<div class="buttonbar">
-	<button name="submit" class="button opbg exec b"><i class="fa fa-floppy-o"></i>@(SAVE SETTINGS)</button>
-	<span>@(Cancel)</span>
-</div>
+
 
 <script>
 	PLUGIN('settings', function(exports) {
 		exports.reload = function() {
-
+			SET('common.layout', 'settings'); // change layout
 		};
 	});
 </script>

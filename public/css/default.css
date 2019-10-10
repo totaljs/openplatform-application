@@ -2,61 +2,48 @@
 
 html,body { margin: 0; padding: 0; color: #303030; }
 
-.mainmenu { float: left; width: 240px; background-color: #F0F0F0; padding: 0 0 10px; transition: left 0.3s; }
-.mainmenu-visible { left: 0 !important; }
-.mainmenu-panel { height: 56px; border-bottom: 1px solid #D0D0D0; }
+.opbody { background-color: #ccc !important; }
+.ui-dark.opbody { background-color: #505050 !important; }
 
-.ui-dark .mainmenu { background-color: #252525; }
+/* Rewrite component styles */
+.ui-layout-section { background-color: white !important; }
+.ui-dark .ui-layout-section { background-color: #282828 !important; }
 
-.button { background-color: #4285f4; color: white; font-size: 12px; height: 34px; padding: 0 20px; margin: 0; border: 0; border-radius: 3px; display: block; width: 100%; }
-.button:hover { opacity: 0.9; }
-.button:disabled { opacity: 1; background-color: #D0D0D0; color: #A0A0A0; cursor: not-allowed; }
-.ui-dark .button:disabled { background-color: #404040; }
-.button i { margin-right: 5px; }
+.mainmenu span:first-child { margin-top: 45px; }
+.mainmenu span { display: block; padding: 4px 15px; cursor: pointer; }
+.mainmenu span:hover { opacity: 0.7; }
+.mainmenu span.selected:hover { opacity: 1; }
+.mainmenu .selected { background-color: #F0F0F0; font-weight: bold; }
+.ui-dark .mainmenu .selected { background-color: #505050; }
 
-.buttonbar { background-color: #F0F0F0; height: 50px; position: absolute; bottom: 0; left: 0; right: 0; }
-.ui-dark .buttonbar { background-color: #303030; }
-.buttonbar .button { height: 50px; border-radius: 0; font-size: 12px; border: 0; max-width: 200px; float: left; margin-right: 10px; }
-.buttonbar .button i { margin-right: 8px; }
-.buttonbar > span { line-height: 50px; display: inline-block; color: gray; font-size: 12px; cursor: pointer; margin-left: 10px; }
-.buttonbar > span i { margin-right: 5px; }
-.buttonbar > span:hover { text-decoration: underline; }
-
-.toolbar { height: 50px; padding: 10px 15px 0; border-bottom: 1px solid #E0E0E0; }
-.ui-dark .toolbar { border-color: #303030; }
-.toolbar button { outline: 0; background-color: #F0F0F0; border: 1px solid transparent; border: 1px solid #E0E0E0; border-left: 0; font-size: 11px; height: 28px; padding: 0 8px; margin: 0; color: black; min-width: 80px; vertical-align: top; }
+.toolbar { padding: 8px 20px 0; }
+.toolbar button { outline: 0; background-color: #F0F0F0; border: 1px solid rgba(0, 0, 0, 0.1); border-left: 0; font-size: 11px; height: 28px; padding: 0 8px; margin: 0; color: black; min-width: 80px; vertical-align: top; }
 .toolbar button i { margin-right: 5px; }
 .toolbar button .fa-plus-circle, .toolbar button .fa-check-circle { color: #68B25B; }
-.toolbar button:hover { background-color: #E9E9E9; border-color: #E0E0E0; }
-.toolbar button:first-child { border-left: 1px solid #E0E0E0; border-top-left-radius: 3px; border-bottom-left-radius: 3px; }
-.toolbar button:last-child { border-top-right-radius: 3px; border-bottom-right-radius: 3px; }
+.toolbar button:hover { background-color: #E9E9E9; }
+.toolbar button:first-child { border-left: 1px solid rgba(0, 0, 0, 0.1); border-top-left-radius: 2px; border-bottom-left-radius: 2px; }
+.toolbar button:last-child { border-top-right-radius: 2px; border-bottom-right-radius: 2px; }
 .toolbar button:disabled { color: silver; cursor: not-allowed; background-color: #E8E8E8; border-color: #E0E0E0 !important; box-shadow: none; }
 .toolbar button:disabled i { color: silver; }
 .toolbar button.right { float: right; margin-left: 5px; margin-right: 0; }
-.toolbar .highlight { background-color: #FFFFD5; }
 
-.ui-dark .toolbar button { background-color: #282828; color: white; border-color: #333333; }
-.ui-dark .toolbar button:first-child { border-left-color: #333333; }
-.ui-dark .toolbar button:hover { background-color: #323232; border-color: #353535; }
+.ui-dark .toolbar button { background-color: #232323; color: white; border-color: rgba(255, 255, 255, 0.1); }
+.ui-dark .toolbar button:hover { background-color: #323232; }
 .ui-dark .toolbar button:disabled { color: #505050; background-color: #252525; border-color: #333333 !important; }
 .ui-dark .toolbar button:disabled i { color: #505050; }
 
-.filter .ui-dropdown { height: 26px; }
-.filter .ui-dropdown-values { height: 25px; line-height: 24px; }
-.filter .ui-dropdown select { font-size: 11px; height: 20px; margin-left: -2px; margin-top: 2px; }
-.filter .ui-dropdown:after { margin-left: -20px; }
-.filter .ui-textbox { height: 26px; }
-.filter .ui-textbox-input { padding-top: 2px; }
-.filter .ui-textbox-input input { font-size: 11px; height: 20px; }
-.filter .ui-textbox-control { width: 28px; font-size: 12px; padding-top: 2px; }
+.footer { padding: 0 20px; margin-top: 5px; }
+.footer .button { max-width: 200px; display: inline-block; width: 100%; height: 35px; }
+.footer .cancel { display: inline-block; margin-left: 15px; cursor: pointer; }
+.footer .cancel i { margin-right: 5px; }
 
-.body { margin-left: 240px; position: relative; }
-.padding { padding: 15px; }
-.scroller { overflow-y: auto; overflow-x: hidden; overflow-scrolling: touch; }
+.button { background-color: #4285f4; color: white; font-size: 13px; height: 40px; padding: 0 20px; margin: 0; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 2px; display: block; width: 100%; font-weight: bold; }
+.button:hover { opacity: 0.8; }
+.button:disabled { opacity: 1; background-color: #F8F8F8; color: #A0A0A0; cursor: not-allowed; border-color: #F8F8F8; }
+.ui-dark .button:disabled { background-color: #404040; }
+.button i { margin-right: 5px; }
 
 @media(max-width: 500px) {
-	.mainmenu { position: absolute; float: none; left: -800px; width: 100%; z-index: 10; }
-	.mainmenu nav a { font-size: 16px; padding: 8px 15px; }
-	.body { margin-left: 0; }
-	.padding { padding: 20px; }
+	.mainmenu span:first-child { margin-top: 0; }
+	.mainmenu span { display: block; padding: 10px 15px; cursor: pointer; }
 }
