@@ -9,24 +9,85 @@
 	<meta name="format-detection" content="telephone=no" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="robots" content="all,follow" />
-	<link href="@{'%cdn'}/spa.min@17.css" rel="stylesheet" />
-	<script src="@{'%cdn'}/spa.min@17.js"></script>
+	<link href="@{'%cdn'}/spa.min@18.css" rel="stylesheet" />
+	<script src="@{'%cdn'}/spa.min@18.js"></script>
 	<script src="@{'%cdn'}/openplatform.min@4.js"></script>
 	@{import('meta', 'head', 'default.js', 'default.css', 'favicon.ico')}
 </head>
 <body data---="exec" data-bind="common.ready__invisible:!value" class="invisible">
 
-	<div class="mainmenu">
-		<div class="scroller">
-			<div data---="navigation__common.page__datasource:common.cl.navigation;autoselect:true"></div>
-		</div>
-	</div>
+	<div data---="layout__common.layout" class="invisible">
 
-	<div class="body">
-		<div class="scroller">
+		<!-- META DATA OF THE LAYOUT -->
+		<script type="text/plain">
+			{
+				top: { show: true, size: 45 },
+				bottom: { show: false },
+				left: { show: true, size: 240 },
+				right: { show: false },
+				main: {},
+				xs: {
+					top: { show: true, size: 45 },
+					bottom: { show: false },
+					left: { show: false },
+					right: { show: false },
+					main: {},
+				},
+				settings: {
+					top: { show: true, size: 45 },
+					bottom: { show: true, size: 45 },
+					left: { show: true, size: 240 },
+					right: { show: false },
+					main: { },
+					xs: {
+						top: { show: true, size: 45 },
+						bottom: { show: true, size: 45 },
+						left: { show: false },
+						right: { show: false },
+						main: {},
+					}
+				},
+				mobilemenu: {
+					top: { show: false },
+					bottom: { show: false },
+					left: { show: true, size: '100%' },
+					right: { show: false },
+					main: { show: false },
+				}
+			}
+		</script>
+
+		<!-- TOP -->
+		<section data-type="top2">
+			<div class="toolbar">
+				<button class="b" title="Add"><i class="fa fa-plus-circle"></i>@(Add)</button>
+				<button><i class="fa fa-cog"></i>@(Options)</button>
+			</div>
+		</section>
+
+		<!-- LEFT -->
+		<section data-type="left">
+			<div data---="listmenu__common.page__datasource:common.navigation;selector:span" class="mainmenu">
+				<script type="text/html">
+					<span class="exec" data-exec="main/page" data-id="{{ id }}">{{ name }}</span>
+				</script>
+			</div>
+		</section>
+
+		<!-- MAIN -->
+		<section data-type="main">
 			<div data---="part__common.page__if:users;url:@{#}/parts/users.html;reload:users/reload" class="hidden"></div>
 			<div data---="part__common.page__if:settings;url:@{#}/parts/settings.html;reload:settings/reload" class="hidden"></div>
-		</div>
+		</section>
+
+		<!-- BOTTOM -->
+		<section data-type="bottom2">
+			<div data-bind="common.page__show:value === 'settings'" class="footer hidden">
+				<button class="button" name="submit">@(SAVE)</button>
+				<span class="cancel"><i class="fa fa-undo"></i>@(Cancel)</span>
+			</div>
+		</section>
+
 	</div>
 
 	@{json(user.copy('id', 'photo', 'name', 'roles', 'filter', 'sa'), 'userdata')}
@@ -34,26 +95,32 @@
 	<script>
 
 		var user = PARSE('#userdata');
+		var common = {};
 
-		MAKE('common', function(obj) {
-			obj.page = '';
+		common.layout = '';
+		common.page = 'users';
+		common.navigation = [{ id: 'users', name: '@(Users)' }, { id: 'settings', name: '@(Settings)' }];
 
-			// Codelists
-			obj.cl = {};
-			obj.cl.navigation = [{ id: 'users', name: '@(Users)', title: '@(List of users)', icon: 'users' }, { name: '@(Directory)', children: [{ id: 'settings', name: '@(Settings)', icon: 'cog' }] }];
+		// Enables OP themes
+		OP.appearance();
+		OP.on('appearance', function(obj) {
+			// Use custom colors
+			CSS('.button { background-color: {0}; }'.format(obj.colorscheme), 'op');
+		});
+
+		// Toggles menu for mobile devices
+		OP.on('menu', function() {
+			SET('common.layout', (common.layout === 'mobilemenu' ? '' : 'mobilemenu'));
 		});
 
 		PLUGIN('main', function(exports) {
 
-		});
+			exports.page = function(el) {
+				var id = el instanceof jQuery ? el.attrd('id') : el; // thanks to this, you can use e.g. `EXEC('main/page', 'settings')` from everywhere
+				SET('common.page', id);
+			}
 
-		// Hides menu
-		WATCH('common.page', function() {
-			$('.mainmenu').rclass('mainmenu-visible');
 		});
-
-		// Enables OP themes
-		OP.appearance();
 
 	</script>
 
