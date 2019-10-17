@@ -22,7 +22,10 @@ FILE('/openplatform.json', function(req, res) {
 	res.file(PATH.root('openplatform.json'));
 });
 
-OP.version = 1.007;
+// Applies localization
+LOCALIZE(req => req.query.language);
+
+OP.version = 1.008;
 OP.meta = null;
 
 Fs.readFile(PATH.root('openplatform.json'), function(err, data) {
@@ -240,6 +243,7 @@ OP.auth = OP.users.auth = function(options, callback) {
 					platform.users = meta.users;
 					platform.apps = meta.apps;
 					platform.services = meta.services;
+					platform.servicetoken = meta.servicetoken;
 					platform.sn = meta.sn;
 					platform.settings = meta.settings || EMPTYOBJECT;
 				}
