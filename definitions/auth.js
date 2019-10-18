@@ -27,14 +27,17 @@ AUTH(function($) {
 		// cached : means that meta data of OP has been downloaded before this call
 
 		// A simple hack for quick synchronization of the current user
-
-		if (type) {
-			user.filter.push(user.id);
-			user.admin = user.sa || user.roles.indexOf('admin') !== -1;
-		}
-
 		if (user) {
-			user.language && ($.req.$language = user.language);
+
+			if (type) {
+				user.filter.push(user.id);
+				user.admin = user.sa || user.roles.indexOf('admin') !== -1;
+			}
+
+			// Internal Total.js hack for localization
+			if (!$.req.$language && user.language)
+				$.req.$language = user.language;
+
 			$.success(user);
 		} else
 			$.invalid();
