@@ -90,7 +90,7 @@
 
 	</div>
 
-	@{json(user.copy('id', 'photo', 'name', 'roles', 'filter', 'sa'), 'userdata')}
+	@{json(user.copy('id', 'photo', 'name', 'roles', 'filter', 'language', 'sa'), 'userdata')}
 
 	<script>
 
@@ -100,6 +100,9 @@
 		common.layout = '';
 		common.page = 'users';
 		common.navigation = [{ id: 'users', name: '@(Users)' }, { id: 'settings', name: '@(Settings)' }];
+
+		// Sets localization for templates
+		DEF.languagehtml = user.language;
 
 		// Enables OP themes
 		OP.appearance();
