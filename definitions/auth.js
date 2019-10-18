@@ -35,7 +35,9 @@ AUTH(function($) {
 			}
 
 			// Internal Total.js hack for localization
-			if (!$.req.$language && user.language)
+			if ($.req.$language)
+				user.language = $.req.$language;
+			else if (user.language)
 				$.req.$language = user.language;
 
 			$.success(user);
