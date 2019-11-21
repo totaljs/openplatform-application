@@ -40,9 +40,7 @@
 			<div data---="viewbox__null__margin:35">
 				<div data---="listmenu__common.page__datasource:common.navigation;selector:.item" class="nav">
 					<script type="text/html">
-						{{ if id === '-' }}
-						<hr />
-						{{ else }}
+						{{ if id }}
 						<div class="item" data-id="{{ id }}">
 							{{ if canedit }}
 							<span class="exec" data-exec="?/menu"><i class="fa fa-ellipsis-h"></i></span>
@@ -50,6 +48,8 @@
 							<i class="{{ icon }}"></i>
 							<div>{{ name }}</div>
 						</div>
+						{{ else }}
+						<hr />
 						{{ fi }}
 					</script>
 				</div>
@@ -85,7 +85,7 @@
 
 		common.layout = '';
 		common.page = 'users';
-		common.navigation = [{ id: 'users', icon: 'fa fa-user-friends', name: '@(Users)' }, { id: 'settings', icon: 'fa fa-cog', name: '@(Settings)' }, { id: '-' }, { id: 'company', icon: 'fa fa-building', name: '@(Company)' }];
+		common.navigation = [{ id: 'users', icon: 'fa fa-user-friends', name: '@(Users)' }, { id: 'settings', icon: 'fa fa-cog', name: '@(Settings)' }, { /* line */ }, { id: 'company', icon: 'fa fa-building', name: '@(Company)' }];
 
 		// Sets localization for templates
 		DEF.languagehtml = user.language;
