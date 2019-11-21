@@ -1,12 +1,12 @@
 <div class="padding">
-	@(Settings)
+	<h3 data-bind="common.page__text"></h3>
 </div>
 
 
 <script>
 	PLUGIN('settings', function(exports) {
 		exports.reload = function() {
-			SET('common.layout', 'settings'); // change layout
+
 		};
 	});
 </script>
