@@ -6,8 +6,9 @@ OP.init = function(platform, next) {
 };
 
 // Total.js Authorization
-OP.auth(function(user, type, cached) {
+OP.auth(function($, user, type, cached) {
 
+	// $      : AuthOptions
 	// type 0 : from session
 	// type 1 : profile downloaded from OP without OP meta data
 	// type 2 : profile downloaded from OP with meta data
