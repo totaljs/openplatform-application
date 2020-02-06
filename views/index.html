@@ -17,19 +17,18 @@
 <body data---="exec" data-bind="common.ready__invisible:!value" class="invisible">
 
 	<div data---="LAZY directory"></div>
+	<div data---="LAZY menu"></div>
 
 	<div data---="layout__common.layout" class="invisible">
 
 		<script type="text/plain">
 			{
-				top: { size: 44, show: true },
 				left: { size: 220, show: true },
 				main: { show: true },
-				detail: {
+				mobilemenu: {
 					xs: {
-						top: { show: false },
-						left: { show: false },
-						main: { show: true, size: '100%' }
+						left: { size: '100%', show: true },
+						main: { show: false }
 					}
 				}
 			}
@@ -43,7 +42,7 @@
 						{{ if id }}
 						<div class="item" data-id="{{ id }}">
 							{{ if canedit }}
-							<span class="exec" data-exec="?/menu"><i class="fa fa-ellipsis-h"></i></span>
+							<span class="exec" data-exec="main/menu"><i class="fa fa-ellipsis-h"></i></span>
 							{{ fi }}
 							<i class="{{ icon }}"></i>
 							<div>{{ name }}</div>
@@ -52,17 +51,6 @@
 						<hr />
 						{{ fi }}
 					</script>
-				</div>
-			</div>
-		</section>
-
-		<section data-type="top">
-			<div class="header" data-bind="?.tab__show .must:value==='admin'">
-				<label>@(Example application)</label>
-				<div>
-					<button class="exec" data-exec="main/create"><i class="fa fa-plus-circle green"></i>@(Add)</button>
-					<button class="exec" data-exec="main/edit"><i class="fa fa-pencil-alt"></i>@(Edit)</button>
-					<button class="exec" data-exec="main/remove"><i class="far fa-trash-o red"></i>@(Remove)</button>
 				</div>
 			</div>
 		</section>
@@ -85,7 +73,7 @@
 
 		common.layout = '';
 		common.page = 'users';
-		common.navigation = [{ id: 'users', icon: 'fa fa-user-friends', name: '@(Users)' }, { id: 'settings', icon: 'fa fa-cog', name: '@(Settings)' }, { /* line */ }, { id: 'company', icon: 'fa fa-building', name: '@(Company)' }];
+		common.navigation = [{ id: 'users', icon: 'fa fa-user-friends', name: '@(Users)' }, { id: 'settings', icon: 'fa fa-cog', name: '@(Settings)' }, { /* line */ }, { id: 'company', icon: 'fa fa-building', name: '@(Company)', canedit: true }];
 
 		// Sets localization for templates
 		DEF.languagehtml = user.language;
@@ -104,14 +92,16 @@
 
 		PLUGIN('main', function(exports) {
 
-			exports.create = function() {
-				DEFAULT('userform.*__{}');
-				SET('common.panel', 'userform');
-			};
-
-			exports.edit = function() {
-				DEFAULT('userform.*__{}');
-				SET('common.panel', 'userform');
+			exports.menu = function(el) {
+				var opt = {};
+				opt.element = el;
+				opt.items = [];
+				opt.align = 'right';
+				opt.items.push({ id: 'edit', name: '@(Edit template)' });
+				opt.callback = function(item) {
+					alert(item);
+				};
+				SETTER('menu', 'show', opt);
 			};
 
 		});

@@ -1,5 +1,15 @@
 <div data-scope="users">
-	<div data---="datagrid__?.items__height:.ui-layout-section;bottom:59" class="nogridborder">
+
+	<div class="header">
+		<label>@(Example application)</label>
+		<div>
+			<button class="exec" data-exec="?/create"><i class="fa fa-plus-circle green"></i>@(Add)</button>
+			<button class="exec" data-exec="?/edit"><i class="fa fa-pencil-alt"></i>@(Edit)</button>
+			<button class="exec" data-exec="?/remove"><i class="far fa-trash-o red"></i>@(Remove)</button>
+		</div>
+	</div>
+
+	<div data---="datagrid__?.items__height:.ui-layout-section;noborder:1;margin:45">
 		<script type="text/plain">
 			[
 				{ name: 'name', text: 'Name', width: 200 },
@@ -23,6 +33,26 @@
 				items.push({ name: '{0} Lorem ipsum dolor'.format(i), published: i % 5 !== 0, description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur, mollitia!', price: i + 100, created: new Date().add('-5 days') });
 
 			SET('?.items', items);
+		};
+
+		exports.create = function() {
+			DEFAULT('userform.*__{}');
+			SET('common.panel', 'userform');
+		};
+
+		exports.edit = function() {
+			DEFAULT('userform.*__{id:1}');
+			SET('common.panel', 'userform');
+		};
+
+		exports.remove = function() {
+			OP.confirm('@(Are you sure you want to delete selected row?)', ['"check-circle" @(Yes)', '@(Cancel)'], function(index) {
+
+				if (index)
+					return;
+
+				OP.success('Removed!');
+			});
 		};
 
 	});

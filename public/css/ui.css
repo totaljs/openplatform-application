@@ -1,6 +1,7 @@
 /*auto*/
 
 .ui-layout-section { background-color: white !important; }
+.ui-dark .ui-layout-section { background-color: #282828 !important; }
 
 .nogridborder .dg-h-container { border-left: 0 !important; border-top: 0 !important; }
 .nogridborder .dg-footer { border-bottom: 0 !important; border-left: 0; border-right: 0; }
