@@ -29,6 +29,7 @@ OP.init(function(err, meta) {
 	}
 
 	ENV('date', user.dateformat);
+	ENV('datetime', user.timeformat === 12 ? '!' + user.dateformat + ' HH:mm a' : user.dateformat + ' HH:mm');
 
 	var tokenize = function(opt) {
 		if (opt.url && opt.url.lastIndexOf('.html') === -1)
