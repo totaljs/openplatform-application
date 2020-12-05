@@ -13,7 +13,7 @@ This application is example only for understanding of concept of OpenPlatform.
 
 - Download source-code
 - Install Total.js framework `$ npm install`
-- Run `$ node debug.js`
+- Run `$ node index.js`
 - __Then register app__ `http://127.0.0.1:8001/openplatform.json` into your OpenPlatform
 
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
