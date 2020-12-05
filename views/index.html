@@ -75,8 +75,8 @@
 		common.page = 'users';
 		common.navigation = [{ id: 'users', icon: 'fa fa-user-friends', name: '@(Users)' }, { id: 'settings', icon: 'fa fa-cog', name: '@(Settings)' }, { /* line */ }, { id: 'company', icon: 'fa fa-building', name: '@(Company)', canedit: true }];
 
-		// Sets localization for templates
-		DEF.languagehtml = user.language;
+		// Injects jComponent preddefined functionality (number and date/time formatting, language)
+		OP.jcomponent();
 
 		// Enables OP themes
 		OP.appearance();
