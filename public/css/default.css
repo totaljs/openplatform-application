@@ -8,7 +8,7 @@ h2 { margin: 0 0 10px; padding: 0; font-size: 16px; }
 h2 span { float: right; color: gray; font-weight: normal; font-size: 12px; margin: 5px 0 0; }
 
 .nav { padding: 10px 0; }
-.nav .item { height: 24px; cursor: pointer; margin: 2px 8px 3px; border-radius: 2px; }
+.nav .item { height: 24px; cursor: pointer; margin: 2px 8px 3px; border-radius: var(-radius); }
 .nav .item > span { float: right; width: 24px; font-size: 12px; padding: 5px 5px 0 0; text-align: right; color: gray; }
 .nav .item > span:hover { color: black; }
 .nav .item > i { float: left; width: 24px; font-size: 14px; padding: 5px 0 0 10px; color: gray; }
@@ -20,11 +20,11 @@ h2 span { float: right; color: gray; font-weight: normal; font-size: 12px; margi
 
 .header { height: 45px; padding: 0 10px 0 0; border-bottom: 1px solid #E0E0E0; text-align: right; }
 .ui-dark .header { border-color: #404040; }
-.header button, .toolbar button { outline: 0; background: linear-gradient(white,#F8F8F8); border: 1px solid #E0E0E0; border-left: 0; font-size: 11px; height: 24px; padding: 0 8px; margin: 0; color: black; min-width: 80px; text-align: center; vertical-align: top; background-color: white; }
+.header button, .toolbar button { outline: 0; background: linear-gradient(white,#F8F8F8); border: 1px solid #E0E0E0; border-left: 0; font-size: 11px; height: 24px; padding: 0 8px; margin: 0; color: black; min-width: 80px; text-align: center; vertical-align: top; background-color: #FFF; }
 .header button i, .toolbar button i { margin-right: 5px; }
 .header button .fa-plus-circle, .header button .fa-check-circle, .toolbar button .fa-plus-circle, .toolbar button .fa-check-circle { color: #68B25B; }
-.header button:first-child, .toolbar button:first-child { border-left: 1px solid #E0E0E0; border-top-left-radius: 2px; border-bottom-left-radius: 2px; }
-.header button:last-child, .toolbar button:last-child  { border-top-right-radius: 2px; border-bottom-right-radius: 2px; }
+.header button:first-child, .toolbar button:first-child { border-left: 1px solid #E0E0E0; border-top-left-radius: var(--radius); border-bottom-left-radius: var(--radius); }
+.header button:last-child, .toolbar button:last-child  { border-top-right-radius: var(--radius); border-bottom-right-radius: var(--radius); }
 .header button:hover, .toolbar button:hover { border-color: #D0D0D0; }
 .header button:active, .toolbar button:active { background: #E9E9E9; }
 .header button:disabled, .toolbar button:disabled { color: silver; cursor: not-allowed; border-color: #E0E0E0 !important; background: linear-gradient(#F8F8F8,#F0F0F0); }
@@ -44,7 +44,7 @@ h2 span { float: right; color: gray; font-weight: normal; font-size: 12px; margi
 .header label { float: left; line-height: 44px; font-weight: bold; margin-left: 10px; }
 .header label i { margin-right: 5px; }
 
-.button { background-color: $color; border: 0; color: white; cursor: pointer; outline: 0; width: 100%; border-radius: 2px; height: 40px; font-family: Arial; font-weight: bold; }
+.button { background-color: $color; border: 0; color: white; cursor: pointer; outline: 0; width: 100%; border-radius: var(--radius); height: 40px; font-family: Arial; font-weight: bold; }
 .button:hover { box-shadow: 0 2px 5px rgba(0,0,0,0.1); opacity: 0.9; }
 .button:disabled { background-color: #E0E0E0; color: silver; cursor: not-allowed; box-shadow: none; opacity: 1; }
 .ui-dark .button:disabled { background-color: #404040; }
@@ -55,4 +55,4 @@ h2 span { float: right; color: gray; font-weight: normal; font-size: 12px; margi
 .boolbar .button { height: 25px; position: relative; display: inline-block; width: auto; padding: 0 10px; line-height: 25px; font-size: 12px; }
 .boolbar .cancel { margin: 0 10px; cursor: pointer; color: gray; font-size: 12px; }
 .boolbar .cancel i { margin-right: 5px; }
-.boolbar .cancel:hover { color: #777777; }
+.boolbar .cancel:hover { color: #777; }
