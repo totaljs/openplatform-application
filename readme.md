@@ -15,7 +15,6 @@ This application is example only for understanding of concept of OpenPlatform.
 - Install Total.js framework `$ npm install`
 - Run `$ node index.js`
 - Run the app in the OpenPlatform simulator: <http://simulator.totaljs.com?url=http%3A%2F%2F127.0.0.1%3A8000>
-- or register the app `http://127.0.0.1:8001/openplatform.json` in your OpenPlatform
 
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
 [license-url]: license.txt
