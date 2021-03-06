@@ -8,11 +8,11 @@ h2 { margin: 0 0 10px; padding: 0; font-size: 16px; }
 h2 span { float: right; color: gray; font-weight: normal; font-size: 12px; margin: 5px 0 0; }
 
 .nav { padding: 10px 0; }
-.nav .item { height: 24px; cursor: pointer; margin: 2px 8px 3px; border-radius: var(--radius); }
-.nav .item > span { float: right; width: 24px; font-size: 12px; padding: 5px 5px 0 0; text-align: right; color: gray; }
+.nav .item { height: 26px; cursor: pointer; margin: 2px 8px 3px; border-radius: var(--radius); }
+.nav .item > span { float: right; width: 24px; font-size: 12px; padding: 6px 5px 0 0; text-align: right; color: gray; }
 .nav .item > span:hover { color: black; }
-.nav .item > i { float: left; width: 24px; font-size: 14px; padding: 5px 0 0 10px; color: gray; }
-.nav .item > div { margin: 0 40px 0 32px; padding: 2px 0 0 0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+.nav .item > i { float: left; width: 24px; font-size: 14px; padding: 6px 0 0 10px; color: gray; }
+.nav .item > div { margin: 0 40px 0 32px; padding: 3px 0 0 0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
 .nav .selected { color: white !important; background-color: var(--opcolor); }
 .nav .selected i { color: white !important; }
 .nav .selected i.green { color: #68B25B !important; }

@@ -3,7 +3,7 @@
 	"description": "A test application",
 	"version": "1.0.0",
 	"icon": "flask",
-	"url": "http://127.0.0.1:8001",
+	"url": "http://127.0.0.1:8000",
 	"author": "Total Avengers",
 	"email": "info@totalavengers.com",
 	"color": "#1873D3",
