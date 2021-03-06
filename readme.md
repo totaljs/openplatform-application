@@ -1,15 +1,10 @@
-[![Support](https://www.totaljs.com/img/button-support.png?v=2)](https://www.totaljs.com/support/)
+# OpenPlatform: Application template
 
-# OpenPlatform: TestApp
+- [Documentation](https://docs.totaljs.com/openplatform/)
+- [Join Total.js Telegram](https://t.me/totaljs)
+- [Support](https://www.totaljs.com/support/)
 
-[![MIT License][license-image]][license-url]
-
-- [__Documentation__](https://wiki.totaljs.com/openplatform/01-welcome/)
-- [__Website__](https://www.totaljs.com/openplatform/)
-
-This application is example only for understanding of concept of OpenPlatform.
-
-## Installation
+__Instructions__:
 
 - Download source-code
 - Install Total.js framework `$ npm install`

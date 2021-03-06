@@ -1,6 +1,6 @@
 {
   "name": "OpenPlatformTestApp",
-  "description": "Test application for OpenPlatform",
+  "description": "Test application for the OpenPlatform",
   "version": "0.0.1",
   "main": "index.js",
   "dependencies": {
@@ -10,8 +10,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "platform"
+    "opneplatform",
+    "application"
   ],
-  "author":"Totaljs",
+  "author": "Peter Širka",
   "license": "MIT"
 }
