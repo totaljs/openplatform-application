@@ -1,7 +1,7 @@
 name                  : OpenPlatform Test App
 author                : Total Avengers
 version               : 1.0.0
-cdn                   : //cdn.componentator.com
+cdn                   : https://cdn.componentator.com
 
 allow_custom_titles   : true
 
