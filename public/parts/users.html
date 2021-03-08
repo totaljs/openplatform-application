@@ -1,7 +1,7 @@
 <div data-scope="users">
 
 	<div class="header">
-		<label>@(Example application)</label>
+		<label>@(Users)</label>
 		<div>
 			<button class="exec" data-exec="?/create"><i class="fa fa-plus-circle green"></i>@(Add)</button>
 			<button class="exec" data-exec="?/edit"><i class="fa fa-pencil-alt"></i>@(Edit)</button>
@@ -36,17 +36,17 @@
 		};
 
 		exports.create = function() {
-			DEFAULT('userform.*__{}');
-			SET('common.panel', 'userform');
+			SET('userform @default', {});
+			SET('common.form', 'userform');
 		};
 
 		exports.edit = function() {
-			DEFAULT('userform.*__{id:1}');
-			SET('common.panel', 'userform');
+			SET('userform @reset', { id: '1' });
+			SET('common.form', 'userform');
 		};
 
 		exports.remove = function() {
-			OP.approve('@(Are you sure you want to delete selected row?)', ['"check-circle" @(Yes)', '@(Cancel)'], function() {
+			OP.approve('@(Are you sure you want to delete selected row?)', '"check-circle" @(Yes)', function() {
 				OP.success('Removed!');
 			});
 		};

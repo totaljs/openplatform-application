@@ -50,9 +50,4 @@ h2 span { float: right; color: gray; font-weight: normal; font-size: 12px; margi
 .ui-dark .button:disabled { background-color: #404040; }
 .button i { margin-right: 7px; }
 
-.boolbar { border-top: 1px solid #E0E0E0; line-height: 42px; padding: 0 10px; }
-.ui-dark .boolbar { border-top: 1px solid #404040; }
-.boolbar .button { height: 25px; position: relative; display: inline-block; width: auto; padding: 0 10px; line-height: 25px; font-size: 12px; }
-.boolbar .cancel { margin: 0 10px; cursor: pointer; color: gray; font-size: 12px; }
-.boolbar .cancel i { margin-right: 5px; }
-.boolbar .cancel:hover { color: #777; }
+.ui-form > nav button[name='submit'], .ui-largeform > nav button[name='submit'], .ui-miniform > nav button[name='submit'] { background-color: var(--opcolor) !important; }

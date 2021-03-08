@@ -1,18 +1,11 @@
-<div data---="panel__common.panel__if:userform;icon:hashtag;autofocus:true;reload:userform/reload;scrollbar:1;bg:1" class="hidden">
-	<div data-scope="userform">
-		<div data---="viewbox__null__height:100;parent:.ui-panel-body;margin:45">
-			<div class="padding">
-				<div data---="input__?.templateid__required:1;maxlength:50;dirsource:?.templates;placeholder:@(Choose a template);dirplaceholder:@(Search template)__''" class="m">@(Template)</div>
-				<div data-bind="?.isautoname__hide" class="hidden">
-					<div data---="input__?.name__required:1;maxlength:50;placeholder:@(Type a document name)__''">@(Name)</div>
-				</div>
-			</div>
-		</div>
-		<div class="boolbar" data---="validation__?">
-			<button name="submit" class="button uppercase exec" data-exec="?/submit" disabled><i class="fa fa-floppy-o"></i>@(Submit)</button>
-			<span class="cancel">@(Cancel)</span>
-		</div>
+<div data---="form__common.form__if:userform;icon:user;autofocus:true;width:500;reload:?/reload;submit:?/submit" class="hidden" data-scope="userform">
+	<div class="padding">
+		<div data---="input__?.name__required:1">@(Name)</div>
 	</div>
+	<nav data---="validation__?">
+		<button name="submit" disabled><i class="fa fa-check-circle"></i>@(Submit)</button>
+		<button name="cancel">@(Cancel)</button>
+	</nav>
 </div>
 
 <script>
@@ -22,13 +15,12 @@
 		exports.reload = function(com) {
 			var model = GET('?');
 			var id = model ? model.id : null;
-			com.reconfigure({ title: id ? '@(Update)' : '@(Create)' });
-
-			SET('userform.templates', [{ id: 1, name: 'HTML' }, { id: 2, name: 'CSS' }, { id: 3, name: 'Node.JS' }]);
+			com.reconfigure({ title: id ? '@(Update user)' : '@(Create user)' });
 		};
 
-		exports.submit = function() {
+		exports.submit = function(hide) {
 			OP.success('@(Saved!)');
+			hide();
 		};
 
 	});

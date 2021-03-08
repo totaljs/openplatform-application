@@ -1,12 +1,12 @@
-<div class="padding">
-	<h3 data-bind="common.page__text"></h3>
+<div data-scope="users">
+	<div class="header">
+		<label>@(Settings)</label>
+	</div>
 </div>
-
 
 <script>
 	PLUGIN('settings', function(exports) {
 		exports.reload = function() {
-
 		};
 	});
 </script>

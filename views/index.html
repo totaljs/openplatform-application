@@ -57,12 +57,11 @@
 
 		<section data-type="main">
 			<div data---="part__common.page__if:users;url:@{#}/parts/users.html;reload:users/reload" class="hidden"></div>
-			<div data---="part__common.page__if:settings;url:@{#}/parts/page.html;reload:page/reload" class="hidden"></div>
-			<div data---="part__common.page__if:company;url:@{#}/parts/page.html;reload:page/reload" class="hidden"></div>
+			<div data---="part__common.page__if:settings;url:@{#}/parts/settings.html;reload:settings/reload" class="hidden"></div>
 		</section>
 	</div>
 
-	<div data---="importer__common.panel__if:userform;url:/forms/user.html"></div>
+	<div data---="importer__common.form__if:userform;url:/forms/user.html"></div>
 
 	@{json(user.json(), 'userdata')}
 
@@ -73,7 +72,7 @@
 
 		common.layout = '';
 		common.page = 'users';
-		common.navigation = [{ id: 'users', icon: 'fa fa-user-friends', name: '@(Users)' }, { id: 'settings', icon: 'fa fa-cog', name: '@(Settings)' }, { /* line */ }, { id: 'company', icon: 'fa fa-building', name: '@(Company)', canedit: true }];
+		common.navigation = [{ id: 'users', icon: 'fa fa-user-friends', name: '@(Users)' }, { id: 'settings', icon: 'fa fa-cog', name: '@(Settings)' }, { /* line */ }];
 
 		// Default URL address for API()
 		DEF.api = '/api/';
