@@ -91,17 +91,7 @@
 
 		PLUGIN('main', function(exports) {
 
-			exports.menu = function(el) {
-				var opt = {};
-				opt.element = el;
-				opt.items = [];
-				opt.align = 'right';
-				opt.items.push({ id: 'edit', name: '@(Edit template)' });
-				opt.callback = function(item) {
-					alert(item.id);
-				};
-				SETTER('menu/show', opt);
-			};
+			// do something
 
 		});
 
