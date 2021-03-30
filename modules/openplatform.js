@@ -22,9 +22,7 @@ OP.metafile.filename = PATH.root('openplatform.json');
 
 // Registers a file route
 ON('ready', function() {
-	FILE(OP.metafile.url, function(req, res) {
-		res.file(OP.metafile.filename);
-	});
+	FILE(OP.metafile.url, (req, res) => res.json(OP.meta));
 	Fs.readFile(OP.metafile.filename, function(err, data) {
 		if (data) {
 			OP.meta = data.toString('utf8').parseJSON(true);
@@ -38,7 +36,7 @@ ON('ready', function() {
 // Applies localization
 LOCALIZE(req => req.query.language);
 
-OP.version = 1.021;
+OP.version = 1.024;
 OP.meta = null;
 
 OP.init = function(meta, next) {
@@ -202,9 +200,12 @@ OP.users.auth = function(options, callback) {
 		}
 	}
 
-	var iscloud = options.url.substring(0, 25) === 'https://openplatform.app/';
+	var builder = RESTBuilder.GET(options.url).header('Referer', OP.meta.url).callback(function(err, response, output) {
 
-	RESTBuilder.GET(options.url).callback(function(err, response) {
+		if (CONF.openplatform_origin && output.headers['x-origin'] !== CONF.openplatform_origin) {
+			callback('Invalid origin');
+			return;
+		}
 
 		err && OP.options.debug && OP.error('users.auth', err);
 
@@ -216,8 +217,17 @@ OP.users.auth = function(options, callback) {
 			return;
 		}
 
-		if (!iscloud && meta.url !== OP.meta.url) {
+		if (meta.url !== OP.meta.url) {
 			callback('URL addresses do not match between OpenPlatform and application');
+			return;
+		}
+
+		if (meta.url.charAt(meta.url.length - 1) === '/')
+			meta.url = meta.url.substring(0, meta.url.length - 1);
+
+		var verifyurl = meta.openplatform + '/verify/?accesstoken=';
+		if (options.url.substring(0, verifyurl.length) !== verifyurl) {
+			callback('Invalid OpenPlatform');
 			return;
 		}
 
@@ -230,11 +240,11 @@ OP.users.auth = function(options, callback) {
 				return;
 			}
 
-			var profile = iscloud ? meta : meta.profile;
+			var profile = meta.profile;
 			var raw = meta;
 			var rawid = meta.openplatformid;
 
-			if (!iscloud && (meta.verifytoken || profile.directoryid))
+			if (meta.verifytoken || profile.directoryid)
 				meta.openplatformid = (meta.openplatformid + '-' + (meta.verifytoken || '0') + '-' + (profile.directoryid || '0')).crc32(true);
 
 			var id = meta.openplatformid + '';
@@ -247,30 +257,21 @@ OP.users.auth = function(options, callback) {
 			profile.expire = NOW.add(options.expire || EXPIRE);
 
 			if (!platform.id) {
+
 				platform.id = id;
-				platform.cloud = iscloud;
+				platform.appid = meta.id;
 				platform.directoryid = profile.directoryid;
 				platform.directory = profile.directory;
 				platform.openplatformid = meta.openplatformid;
-
-				if (iscloud) {
-					platform.name = meta.group.name;
-					platform.email = meta.group.email;
-					platform.users = meta.group.users;
-					platform.settings = EMPTYOBJECT;
-					platform.url = 'https://openplatform.app';
-				} else {
-					platform.name = meta.name;
-					platform.email = meta.email;
-					platform.url = meta.openplatform;
-					platform.urlmeta = meta.meta;
-					platform.users = meta.users;
-					platform.apps = meta.apps;
-					platform.services = meta.services;
-					platform.servicetoken = meta.servicetoken;
-					platform.settings = meta.settings || EMPTYOBJECT;
-				}
-
+				platform.name = meta.name;
+				platform.email = meta.email;
+				platform.url = meta.openplatform;
+				platform.urlmeta = meta.meta;
+				platform.users = meta.users;
+				platform.apps = meta.apps;
+				platform.services = meta.services;
+				platform.servicetoken = meta.servicetoken;
+				platform.settings = meta.settings || EMPTYOBJECT;
 				platform.sn = meta.sn;
 				platform.dtsync = NOW;
 				platform.isloading = true;
@@ -290,6 +291,19 @@ OP.users.auth = function(options, callback) {
 
 				OP.platforms[id] = platform;
 				init = true;
+			} else {
+
+				if (platform.appid !== meta.id) {
+					callback('Invalid OpenPlatform');
+					return;
+				}
+
+				// Invalid serial number
+				if (platform.sn && platform.sn !== meta.sn) {
+					callback('Invalid serial number');
+					return;
+				}
+
 			}
 
 			if (err) {
@@ -299,28 +313,21 @@ OP.users.auth = function(options, callback) {
 
 			profile.filter = [profile.id];
 
-			if (iscloud) {
-				profile.roles = [profile.role];
+			if (profile.roles) {
+				for (var i = 0; i < profile.roles.length; i++)
+					profile.filter.push('@' + profile.roles[i]);
+			} else
+				profile.roles = [];
+
+			if (profile.groups) {
+				for (var i = 0; i < profile.groups.length; i++)
+					profile.filter.push('#' + profile.groups[i]);
+			} else
 				profile.groups = [];
-				profile.sa = profile.role === 'sa';
-				profile.filter.push('@' + profile.role);
-			} else {
-				if (profile.roles) {
-					for (var i = 0; i < profile.roles.length; i++)
-						profile.filter.push('@' + profile.roles[i]);
-				} else
-					profile.roles = [];
 
-				if (profile.groups) {
-					for (var i = 0; i < profile.groups.length; i++)
-						profile.filter.push('#' + profile.groups[i]);
-				} else
-					profile.groups = [];
-
-				profile.services = meta.services;
-				profile.apps = meta.apps;
-				profile.users = meta.users;
-			}
+			profile.services = meta.services;
+			profile.apps = meta.apps;
+			profile.users = meta.users;
 
 			var user = new OpenPlatformUser(profile, platform);
 
@@ -331,30 +338,24 @@ OP.users.auth = function(options, callback) {
 			}
 
 			var is = !init;
-			var syncmeta = is ? platform.dtsync.add(options.sync || SYNCMETA) < NOW : true;
+			var syncmeta = platform.resync || (is ? platform.dtsync.add(options.sync || SYNCMETA) < NOW : true);
 			if (syncmeta) {
 
 				// Update platform meta data
 				if (!init) {
-					if (iscloud) {
-						platform.name = meta.group.name;
-						platform.email = meta.group.email;
-						platform.users = meta.group.users;
-					} else {
-						platform.name = meta.name;
-						platform.email = meta.email;
-						platform.url = meta.openplatform;
-						platform.urlmeta = meta.meta;
-						platform.users = meta.users;
-						platform.apps = meta.apps;
-						platform.services = meta.services;
-						platform.servicetoken = meta.servicetoken;
-						platform.sn = meta.sn;
-						platform.settings = meta.settings || EMPTYOBJECT;
-					}
+					platform.name = meta.name;
+					platform.email = meta.email;
+					platform.url = meta.openplatform;
+					platform.urlmeta = meta.meta;
+					platform.users = meta.users;
+					platform.apps = meta.apps;
+					platform.services = meta.services;
+					platform.servicetoken = meta.servicetoken;
+					platform.sn = meta.sn;
+					platform.settings = meta.settings || EMPTYOBJECT;
 				}
 
-				if (!iscloud && (options.url.substring(0, meta.openplatform.length) !== meta.openplatform || rawid !== meta.openplatform.crc32(true))) {
+				if ((options.url.substring(0, meta.openplatform.length) !== meta.openplatform || rawid !== meta.openplatform.crc32(true))) {
 					err = 'Invalid OpenPlatform meta data.';
 					platform.isloading = false;
 					OP.blocked[platform.id] = { expire: NOW.add(BLOCKEDTIMEOUT), err: err, url: OP.meta.url };
@@ -376,18 +377,21 @@ OP.users.auth = function(options, callback) {
 						return;
 					}
 
-					if (!iscloud && OP.options.meta && meta.meta) {
-						RESTBuilder.GET(meta.meta).exec(function(err, response) {
+					if (OP.options.meta && meta.meta) {
+						var builder = RESTBuilder.GET(meta.meta).callback(function(err, response) {
 							OP.sessions[key] = user;
+							platform.resync = false;
 							platform.isloading = false;
 							err && OP.options.debug && OP.error('users.auth', err);
 							platform.meta = response ? response : EMPTYOBJECT;
 							callback(null, user, 2, is, raw);
 							autosyncitems.length && autosyncforce(platform);
 							platform.pending.length && initpending(platform);
-						});
+						}).header('Referer', OP.meta.url);
+						CONF.openplatform_origin && builder.header('X-Origin', CONF.openplatform_origin);
 					} else {
 						OP.sessions[key] = user;
+						platform.resync = false;
 						platform.isloading = false;
 						platform.meta = EMPTYOBJECT;
 						callback(null, user, 2, is, raw);
@@ -406,6 +410,8 @@ OP.users.auth = function(options, callback) {
 		} else
 			callback(err);
 	});
+
+	CONF.openplatform_origin && builder.header('X-Origin', CONF.openplatform_origin);
 };
 
 OP.users.logout = function(user) {
@@ -491,12 +497,18 @@ OP.users.sync = function(options, process, done) {
 			builder.url(options.url);
 			builder.get(filter);
 
+			CONF.openplatform_origin && builder.header('X-Origin', CONF.openplatform_origin);
+
 			builder.exec(function(err, response, output) {
 
 				err && OP.options.debug && OP.error('users.sync', err);
 
 				// Error
 				if (err) {
+
+					if (options.platform)
+						options.platform.resync = true;
+
 					OP.options.debug && OP.error('users.sync', err);
 					done(err, counter);
 					return;
@@ -543,43 +555,38 @@ OP.users.notify = function(url, msg, callback) {
 		callback(err, response);
 	} : null;
 
-	RESTBuilder.POST(url, msg).exec(cb);
+	var builder = RESTBuilder.POST(url, msg).header('Referer', OP.meta.url).callback(cb);
+	CONF.openplatform_origin && builder.header('X-Origin', CONF.openplatform_origin);
 };
 
 OP.users.badge = function(url, callback) {
 	var cb = callback ? function(err, response) {
 		callback(err, response);
 	} : null;
-	RESTBuilder.GET(url).exec(cb);
+	var builder = RESTBuilder.GET(url).header('Referer', OP.meta.url).callback(cb);
+	CONF.openplatform_origin && builder.header('X-Origin', CONF.openplatform_origin);
 };
 
 ON('service', function(counter) {
 
-	var keys;
-
 	if (counter % SESSIONINTERVAL === 0) {
 
 		// Clears all expired sessions
-		keys = Object.keys(OP.sessions);
-		for (let i = 0; i < keys.length; i++) {
-			let key = keys[i];
+		for (let key in OP.sessions) {
 			if (OP.sessions[key].expire < NOW)
 				delete OP.sessions[key];
 		}
 
 		// Clears blocked platforms
-		keys = Object.keys(OP.blocked);
-		for (let i = 0; i < keys.length; i++) {
-			let key = keys[i];
+		for (let key in OP.blocked) {
 			if (OP.blocked[key].expire < NOW)
 				delete OP.blocked[key];
 		}
 	}
 
 	if (counter % AUTOSYNCINTERVAL === 0) {
-		keys = Object.keys(OP.platforms);
-		for (let i = 0; i < keys.length; i++)
-			autosyncforce(OP.platforms[keys[i]]);
+		for (let key in OP.platforms)
+			autosyncforce(OP.platforms[key]);
 	}
 
 });
@@ -651,6 +658,10 @@ OPU.permit = function(type, arr) {
 	}
 };
 
+OPU.dbms = function(builder) {
+	return builder.where('openplatformid', this.profile.openplatformid).where('userid', this.id);
+};
+
 OPU.permissions = function(type, arr) {
 	var self = this;
 	if (!arr || !arr.length)
@@ -715,7 +726,8 @@ OPU.logout = function() {
 };
 
 OPU.service = function(app, service, data, callback) {
-	RESTBuilder.POST(this.profile.services + '&app=' + app + '&service=' + service, data).callback(callback);
+	var builder = RESTBuilder.POST(this.profile.services + '&app=' + app + '&service=' + service, data).header('Referer', OP.meta.url).callback(callback);
+	CONF.openplatform_origin && builder.header('X-Origin', CONF.openplatform_origin);
 };
 
 OPU.cl = function() {
@@ -739,6 +751,11 @@ function autosyncforce(platform) {
 
 		var dt = platform.cache[sync.id];
 
+		if (platform.resync) {
+			next();
+			return;
+		}
+
 		// Can we synchronize?
 		if (dt && dt.add(sync.interval) > NOW) {
 			next();
@@ -749,7 +766,7 @@ function autosyncforce(platform) {
 		platform.cache[sync.id] = NOW;
 
 		// Is initial options nullable?
-		if ((dt == null && !sync.init) || (sync.before && sync.before(platform) === false)) {
+		if ((!dt && !sync.init) || (sync.before && sync.before(platform) === false)) {
 			sync.dtsync = NOW;
 			next();
 			return;
@@ -786,8 +803,16 @@ function makeurl() {
 	return QUERIFY(url, this.query);
 }
 
+var DDOS = {};
+
 OP.auth = function(callback) {
 	AUTH(function($) {
+
+		if (DDOS[$.req.ip] > 15) {
+			$.invalid();
+			return;
+		}
+
 		var op = $.query.openplatform || $.headers.authorization;
 
 		if (!op || op.length < 20) {
@@ -834,6 +859,13 @@ OP.auth = function(callback) {
 		opt.req = $.req;
 
 		OP.users.auth(opt, function(err, user, type, cached, raw) {
+
+			if (err) {
+				if (DDOS[$.req.ip])
+					DDOS[$.req.ip]++;
+				else
+					DDOS[$.req.ip] = 1;
+			}
 
 			// type 0 : from session
 			// type 1 : profile downloaded from OP without OP meta data
@@ -954,3 +986,8 @@ OP.users.sync_rem = function(interval, modified, processor, callback) {
 	OP.users.autosync(interval, { removed: true }, { modified: modified, removed: true }, process, callback);
 	return process;
 };
+
+ON('service', function(counter) {
+	if (counter % 30 === 0)
+		DDOS = {};
+});
