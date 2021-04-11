@@ -17,7 +17,5 @@
 	"allowreadprofile": 1,
 	"allowreadusers": 1,
 	"allowreadapps": 0,
-	"serververify": true,
-	"responsive": true,
-	"origin": []
+	"responsive": true
 }
