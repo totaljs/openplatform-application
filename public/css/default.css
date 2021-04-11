@@ -13,7 +13,7 @@ h2 span { float: right; color: gray; font-weight: normal; font-size: 12px; margi
 .nav .item > span:hover { color: black; }
 .nav .item > i { float: left; width: 24px; font-size: 14px; padding: 6px 0 0 10px; color: gray; }
 .nav .item > div { margin: 0 40px 0 32px; padding: 3px 0 0 0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
-.nav .selected { color: white !important; background-color: var(--opcolor); }
+.nav .selected { color: white !important; background-color: var(--color); }
 .nav .selected i { color: white !important; }
 .nav .selected i.green { color: #68B25B !important; }
 .nav hr { margin: 10px 0; }
@@ -49,5 +49,3 @@ h2 span { float: right; color: gray; font-weight: normal; font-size: 12px; margi
 .button:disabled { background-color: #E0E0E0; color: silver; cursor: not-allowed; box-shadow: none; opacity: 1; }
 .ui-dark .button:disabled { background-color: #404040; }
 .button i { margin-right: 7px; }
-
-.ui-form > nav button[name='submit'], .ui-largeform > nav button[name='submit'], .ui-miniform > nav button[name='submit'] { background-color: var(--opcolor) !important; }
