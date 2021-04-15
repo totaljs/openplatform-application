@@ -56,12 +56,10 @@
 		</section>
 
 		<section data-type="main">
-			<div data---="part__common.page__if:users;url:@{#}/parts/users.html;reload:users/reload" class="hidden"></div>
-			<div data---="part__common.page__if:settings;url:@{#}/parts/settings.html;reload:settings/reload" class="hidden"></div>
+			<div data---="part__common.page__if:users;url:@{#}/parts/users.html;reload:?/reload" class="hidden"></div>
+			<div data---="part__common.page__if:settings;url:@{#}/parts/settings.html;reload:?/reload" class="hidden"></div>
 		</section>
 	</div>
-
-	<div data---="importer__common.form__if:userform;url:/forms/user.html"></div>
 
 	@{json(user.json(), 'userdata')}
 

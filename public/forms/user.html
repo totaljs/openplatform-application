@@ -1,4 +1,4 @@
-<div data---="form__common.form__if:userform;icon:user;autofocus:true;width:500;reload:?/reload;submit:?/submit" class="hidden" data-scope="userform">
+<div data---="form__common.form__if:~PATH~;icon:user;autofocus:true;width:500;reload:?/reload;submit:?/submit" class="hidden" data-scope="~PATH~">
 	<div class="padding">
 		<div data---="input__?.name__required:1">@(Name)</div>
 	</div>
@@ -10,7 +10,7 @@
 
 <script>
 
-	PLUGIN('userform', function(exports) {
+	PLUGIN('~PATH~', function(exports) {
 
 		exports.reload = function(com) {
 			var model = GET('?');

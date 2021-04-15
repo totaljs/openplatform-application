@@ -1,15 +1,15 @@
-<div data-scope="users">
+<div data-scope="~PATH~">
 
 	<div class="header">
 		<label>@(Users)</label>
 		<div>
 			<button class="exec" data-exec="?/create"><i class="fa fa-plus-circle green"></i>@(Add)</button>
-			<button class="exec" data-exec="?/edit"><i class="fa fa-pencil-alt"></i>@(Edit)</button>
-			<button class="exec" data-exec="?/remove"><i class="far fa-trash-o red"></i>@(Remove)</button>
+			<button class="exec" data-exec="?/edit" data-bind="?.selected__enabled"><i class="fa fa-pencil-alt"></i>@(Edit)</button>
+			<button class="exec" data-exec="?/remove" data-bind="?.selected__enabled"><i class="far fa-trash-o red"></i>@(Remove)</button>
 		</div>
 	</div>
 
-	<div data---="datagrid__?.items__height:.ui-layout-section;noborder:1;margin:45">
+	<div data---="datagrid__?.items__height:.ui-layout-section;noborder:1;margin:45;highlight:1;dblclick:?/edit;click:?.selected">
 		<script type="text/plain">
 			[
 				{ name: 'name', text: 'Name', width: 200 },
@@ -22,15 +22,17 @@
 	</div>
 </div>
 
+<div data---="importer__common.form__if:userform;url:/forms/user.html"></div>
+
 <script>
-	PLUGIN('users', function(exports) {
+	PLUGIN('~PATH~', function(exports) {
 
 		exports.reload = function() {
 
 			var items = [];
 
 			for (var i = 1; i < 90; i++)
-				items.push({ name: '{0} Lorem ipsum dolor'.format(i), published: i % 5 !== 0, description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur, mollitia!', price: i + 100, created: new Date().add('-5 days') });
+				items.push({ id: i + '', name: '{0} Lorem ipsum dolor'.format(i), published: i % 5 !== 0, description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur, mollitia!', price: i + 100, created: new Date().add('-5 days') });
 
 			SET('?.items', items);
 		};
@@ -40,12 +42,22 @@
 			SET('common.form', 'userform');
 		};
 
-		exports.edit = function() {
-			SET('userform @reset', { id: '1' });
+		exports.edit = function(row) {
+
+			if (row instanceof jQuery) {
+				// button
+				row = GET('?.selected');
+			}
+
+			SET('userform @reset', CLONE(row));
 			SET('common.form', 'userform');
 		};
 
-		exports.remove = function() {
+		exports.remove = function(row) {
+
+			if (row instanceof jQuery)
+				row = GET('?.selected');
+
 			OP.approve('@(Are you sure you want to delete selected row?)', '"check-circle" @(Yes)', function() {
 				OP.success('Removed!');
 			});
