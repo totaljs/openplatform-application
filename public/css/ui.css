@@ -1,6 +1,6 @@
 /*auto*/
 
-.ui-layout-section { background-color: white !important; }
+.ui-layout-section { background-color: #FFF !important; }
 .ui-dark .ui-layout-section { background-color: #282828 !important; }
 
 .nogridborder .dg-h-container { border-left: 0 !important; border-top: 0 !important; }
