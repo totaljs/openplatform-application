@@ -37,7 +37,7 @@ ON('ready', function() {
 // Applies localization
 LOCALIZE(req => req.query.language);
 
-OP.version = 1.024;
+OP.version = 1.025;
 OP.meta = null;
 
 OP.init = function(meta, next) {
@@ -102,6 +102,11 @@ OP.services.init = function(meta, next) {
 };
 
 OP.services.check = function(controller, callback) {
+
+	if (CONF.openplatform_origin && controller.headers['x-origin'] !== CONF.openplatform_origin) {
+		controller.invalid('error-openplatform-token', ERR_SERVICES_TOKEN);
+		return;
+	}
 
 	var arr = (controller.headers['x-openplatform'] || '').split('-');
 	if (!arr[0] && !arr[3]) {
