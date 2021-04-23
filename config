@@ -5,4 +5,5 @@ cdn                   : https://cdn.componentator.com
 
 allow_custom_titles   : true
 
+// openplatform_origin   : YOUR_ORIGIN_TOKEN
 // database              : postgres://USER:PASS@localhost:5432/DB_NAME
