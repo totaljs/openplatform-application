@@ -1,6 +1,8 @@
 /*auto*/
 
+.ui-layout { background: #E0E0E0; }
 .ui-layout-section { background-color: #FFF !important; }
+.ui-dark .ui-layout { background: #202020; }
 .ui-dark .ui-layout-section { background-color: #282828 !important; }
 
 .nogridborder .dg-h-container { border-left: 0 !important; border-top: 0 !important; }
