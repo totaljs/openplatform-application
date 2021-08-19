@@ -20,12 +20,32 @@ OP.metafile = {};
 OP.metafile.url = '/openplatform.json';
 OP.metafile.filename = PATH.root('openplatform.json');
 
+OP.metafile.makeurl = function(req) {
+	if (OP.meta.url) {
+		var protocol = OP.meta.url.substring(0, 6);
+		if (protocol !== 'http:/' && protocol !== 'https:')
+			OP.meta.url = req.hostname() + OP.meta.url;
+	} else
+		OP.meta.url = req.hostname();
+};
+
 // Registers a file route
 ON('ready', function() {
 
+	OP.metafile.processed = false;
+
 	FILE(OP.metafile.url, function(req, res) {
-		if (!OP.meta.url)
-			OP.meta.url = req.hostname();
+
+		if (!OP.meta) {
+			res.throw404();
+			return;
+		}
+
+		if (!OP.metafile.processed) {
+			OP.metafile.makeurl(req);
+			OP.metafile.processed = true;
+		}
+
 		res.json(OP.meta);
 	});
 
@@ -43,7 +63,7 @@ ON('ready', function() {
 // Applies localization
 LOCALIZE(req => req.query.language);
 
-OP.version = 1.026;
+OP.version = 1.028;
 OP.meta = null;
 
 OP.init = function(meta, next) {
@@ -139,6 +159,7 @@ OP.services.check = function(controller, callback) {
 		platform.directoryid = meta.directoryid;
 		platform.verifytoken = meta.verifytoken;
 		platform.servicetoken = meta.servicetoken;
+		platform.userid = meta.userid;
 		meta = platform;
 		platform = null;
 	}
@@ -156,7 +177,7 @@ OP.services.check = function(controller, callback) {
 			if (is) {
 				meta.dtexpire = NOW.add(SYNCMETA);
 				OP.platforms[key] = meta;
-				callback.call(controller, err, meta, controller);
+				callback.call(controller, err, CLONE(meta), controller);
 			} else
 				controller.invalid('error-openplatform-token', ERR_SERVICES_TOKEN);
 		});
@@ -213,6 +234,11 @@ OP.users.auth = function(options, callback) {
 	}
 
 	var builder = RESTBuilder.GET(options.url).header('Referer', OP.meta.url).callback(function(err, response, output) {
+
+		if (err) {
+			callback(err + '');
+			return;
+		}
 
 		if (CONF.openplatform_origin && (!output.headers || output.headers['x-origin'] !== CONF.openplatform_origin)) {
 			callback('Invalid origin');
@@ -599,10 +625,13 @@ ON('service', function(counter) {
 	}
 
 	if (counter % AUTOSYNCINTERVAL === 0) {
-		for (let key in OP.platforms)
-			autosyncforce(OP.platforms[key]);
+		for (let key in OP.platforms) {
+			if (key.substring(0, 8) !== 'services') {
+				var platform = OP.platforms[key];
+				platform && autosyncforce(platform);
+			}
+		}
 	}
-
 });
 
 var firstdate = { sk: 1, cs: 1, hr: 1, bg: 1, bs: 1, az: 1, sq: 1, de: 1, hu: 1, pl: 1, uk: 1, tr: 1, tk: 1, tt: 1, sv: 1, es: 1, sl: 1, sr: 1, ru: 1, ro: 1, pt: 1, no: 1, nb: 1, nn: 1, mk: 1, lb: 1, lv: 1, la: 1, it: 1, el: 1, ka: 1, fr: 1, da: 1 };
@@ -822,7 +851,7 @@ var DDOS = {};
 OP.auth = function(callback) {
 	AUTH(function($) {
 
-		if (DDOS[$.req.ip] > 15) {
+		if (DDOS[$.req.ip] > 15 || !OP.meta) {
 			$.invalid();
 			return;
 		}
@@ -834,8 +863,10 @@ OP.auth = function(callback) {
 			return;
 		}
 
-		if (!OP.meta.url)
-			OP.meta.url = $.req.hostname();
+		if (!OP.metafile.processed) {
+			OP.metafile.makeurl($.req);
+			OP.metafile.processed = true;
+		}
 
 		if (op.substring(0, 7) === 'base64 ') {
 			// decode
@@ -1007,4 +1038,11 @@ OP.users.sync_rem = function(interval, modified, processor, callback) {
 ON('service', function(counter) {
 	if (counter % 30 === 0)
 		DDOS = {};
+});
+
+// Default user authorization
+OP.auth(function($, user) {
+	// @$ {AuthOptions}
+	// @user {Object} A user profile
+	$.success(user);
 });

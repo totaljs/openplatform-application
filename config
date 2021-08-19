@@ -1,6 +1,3 @@
-name                  : OpenPlatform
-author                : Your company
-version               : 1.0.0
 cdn                   : https://cdn.componentator.com
 
 allow_custom_titles   : true
