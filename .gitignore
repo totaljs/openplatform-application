@@ -1,3 +1,5 @@
 
 sftp-config.json
 tmp/*
+/index.js.json
+/databases/
