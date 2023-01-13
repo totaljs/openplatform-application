@@ -20,6 +20,7 @@ NEWSCHEMA('Setup', function(schema) {
 		action: function($, model) {
 			COPY(model, MAIN.db.config);
 			LOADCONFIG(model);
+			MAIN.db.save();
 			$.success();
 		}
 	});

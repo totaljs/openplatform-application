@@ -1,6 +1,6 @@
 exports.icon = 'ti ti-totaljs';
 exports.name = '@(Profiles)';
-exports.position = 1;
+exports.position = 2;
 exports.permissions = [{ id: 'profiles', name: 'Profiles' }];
 exports.visible = user => user.sa || user.permissions.includes('profiles');
 exports.routes = [

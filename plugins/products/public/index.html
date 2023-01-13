@@ -1,11 +1,7 @@
-<style>
-	.~PATH~ .items {}
-</style>
-
 <ui-plugin config="aclass:1">
 
 	<header>
-		<label><i class="ti ti-invoice"></i>@(Profiles)</label>
+		<label><i class="ti ti-invoice"></i>@(Products)</label>
 		<div class="toolbar">
 			<button class="exec" data-exec="?/create"><i class="ti ti-plus-circle"></i>@(Create)</button>
 		</div>
@@ -40,7 +36,7 @@
 
 		exports.detail = function(el) {
 			var id = ATTRD(el);
-			REDIRECT('/profiles/{0}/'.format(id));
+			REDIRECT('/products/{0}/'.format(id));
 		};
 
 		exports.create = function() {
@@ -48,7 +44,7 @@
 		};
 
 		exports.refresh = function() {
-			exports.tapi('profiles ERROR', function(response) {
+			exports.tapi('products ERROR', function(response) {
 				exports.set('items', response);
 			});
 		};
