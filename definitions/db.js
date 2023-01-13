@@ -1,1 +1,1 @@
-// require('querybuilderpg').init('', CONF.database, CONF.pooling || 1, ERROR('PostgreSQL'));
+// require('querybuilderpg').init('', CONF.database, 1, ERROR('DB'));

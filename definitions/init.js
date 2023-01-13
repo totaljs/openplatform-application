@@ -1,9 +1,32 @@
-// App's permissions:
-OpenPlatform.permissions.push({ name: 'Read', value: 'read' });
-OpenPlatform.permissions.push({ name: 'Write', value: 'write' });
+var db = MAIN.db = MEMORIZE('data');
 
-// Download UI locally
-COMPONENTATOR('ui', 'exec,locale,intranetcss');
+if (!db.config)
+	db.config = {};
 
-// Localization
-ON('locale', req => (req.user ? req.user.language : req.query.language) || '');
+var config = db.config;
+
+if (!config.name)
+	config.name = 'App';
+
+if (!config.cdn)
+	config.cdn = '//cdn.componentator.com';
+
+// Fixed settings
+CONF.allow_custom_titles = true;
+CONF.version = '1';
+CONF.op_icon = 'ti ti-rocket';
+
+// Loads configuration
+LOADCONFIG(db.config);
+
+// UI components
+COMPONENTATOR('ui', 'exec,locale,aselected,page,viewbox,input,importer,box,validate,loading,selected,intranetcss,notify,message,errorhandler,empty,menu');
+
+// Permissions
+ON('ready', function() {
+	for (var key in F.plugins) {
+		var item = F.plugins[key];
+		if (item.permissions)
+			OpenPlatform.permissions.push.apply(OpenPlatform.permissions, item.permissions);
+	}
+});

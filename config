@@ -1,10 +1,1 @@
-cdn                   : https://cdn.componentator.com
-allow_custom_titles   : true
-
-// database              : postgres://USER:PASS@localhost:5432/DB_NAME
-
-// OpenPlatform tokens:
-op_icon               : ti ti-rocket
-op_color              : #68B25B
-op_reqtoken           : -- YOUR TOKEN --
-op_restoken           : -- YOUR TOKEN --
+database    : postgresql://user:password@localhost:5432/database

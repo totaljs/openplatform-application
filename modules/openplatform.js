@@ -119,9 +119,7 @@ function Json() {
 			case 'notification':
 			case 'sign':
 			case 'json':
-			case 'iframe':
 			case 'logout':
-			case 'dtexpire':
 				break;
 			default:
 				obj[key] = this[key];

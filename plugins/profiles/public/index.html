@@ -1,0 +1,58 @@
+<style>
+	.~PATH~ .items {}
+</style>
+
+<ui-plugin config="aclass:1">
+
+	<header>
+		<label><i class="ti ti-invoice"></i>@(Profiles)</label>
+		<div class="toolbar">
+			<button class="exec" data-exec="?/create"><i class="ti ti-plus-circle"></i>@(Create)</button>
+		</div>
+	</header>
+
+	<ui-component name="viewbox" path="common.page" config="parent:window;margin:60;scrolbarshadow:1;centered:1" class="invisible">
+
+		<br />
+		<div class="auto" style="max-width:600px">
+			<ui-bind path="?.items" config="template" class="listing2">
+				<script type="text/html">
+					{{ foreach m in value }}
+						<figure class="exec" data-exec="?/detail" data-id="{{ m }}">
+							<section>{{ m }}</section>
+						</figure>
+					{{ end }}
+				</script>
+			</ui-bind>
+		</div>
+		<br />
+
+	</ui-component>
+
+</ui-plugin>
+
+<script>
+	PLUGIN(function(exports) {
+
+		exports.reload = function() {
+			exports.refresh();
+		};
+
+		exports.detail = function(el) {
+			var id = ATTRD(el);
+			REDIRECT('/profiles/{0}/'.format(id));
+		};
+
+		exports.create = function() {
+			EXEC('-message/warning', '@(Not implemented)');
+		};
+
+		exports.refresh = function() {
+			exports.tapi('profiles ERROR', function(response) {
+				exports.set('items', response);
+			});
+		};
+
+	});
+
+</script>

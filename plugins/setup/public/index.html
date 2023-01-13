@@ -1,0 +1,104 @@
+<ui-plugin>
+
+	<header>
+		<label><i class="ti ti-cog"></i>@(Configuration)</label>
+	</header>
+
+	<ui-component name="viewbox" path="common.page" config="parent:window;margin:60;scrolbarshadow:1;centered:1" class="invisible">
+
+		<div class="panel left auto" style="max-width:640px">
+
+			<label><i class="ti ti-rocket"></i>@(Application)</label>
+
+			<div class="padding">
+
+				<div>
+					<div class="m">
+						<ui-component name="input" path="?.name" config="required:1">@(Name)</ui-component>
+					</div>
+
+					<div class="m">
+
+						<div class="caption m">
+							<label><i class="ti ti-totaljs-alt green"></i>@(OpenPlatform)</label>
+						</div>
+
+						<p>@(The application is designed to work with the Total.js OpenPlatform. First, you must obtain tokens from the application registration form in the OpenPlatform instance.)</p>
+
+						<div class="m">
+							<p>@(You can easily import this app into the OpenPlatform. Copy the link below and paste it into the Importing form in the OpenPlatform.)</p>
+							<ui-bind path="location.origin" config="text span" class="block fs12">
+								<a href="/openplatform.json" target="_blank"><i class="ti ti-globe mr5"></i><span></span>/openplatform.json</a>
+							</ui-bind>
+						</div>
+
+						<div class="grid-2">
+							<div class="m">
+								<ui-component name="input" path="?.op_reqtoken" config="camouflage:1;placeholder:@(Enter a token)">@(Request token)</ui-component>
+							</div>
+							<div class="m">
+								<ui-component name="input" path="?.op_restoken" config="camouflage:1;placeholder:@(Enter a token)">@(Response token)</ui-component>
+							</div>
+						</div>
+						<div class="message message-alert">
+							<div class="b"><i class="ti ti-warning mr5"></i>@(Warning)</div>
+							@(You will be automatically logged out if you enter tokens for the OpenPlatform.)
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="padding bg-smoke">
+				<div class="caption m">
+					<label><i class="ti ti-totaljs"></i>@(Total.js TMS)</label>
+				</div>
+				<p>@(The Total.js Message Service allows you to capture data from this applicaton using the Total.js Flow Visual Programming Interface.)</p>
+
+				<div class="m">
+					<ui-component name="input" path="?.allow_tms" config="type:checkbox" class="b">@(Enable TMS)</ui-component>
+				</div>
+
+				<ui-bind path="?.allow_tms" config="show" class="m block hidden">
+					<ui-component name="input" path="?.secret_tms" config="required:1;camouflage:1">@(Access token)</ui-component>
+					<div class="help">
+						<span class="pull-right exec link" data-exec="?/generate">@(Generate)</span>
+						<div><i class="ti ti-link"></i><b>@(TMS endpoint):</b> <ui-bind path="location.origin" config="text:value.replace(/^https/, 'wss') + '/$tms/'" class="exec" data-exec="?/copy"></ui-bind></div>
+					</div>
+				</ui-bind>
+			</div>
+			<div class="padding">
+				<ui-component name="validate" path="?">
+					<button name="submit" class="button exec" data-exec="?/submit" disabled><i class="ti ti-check-circle"></i>@(SUBMIT)</button>
+				</ui-component>
+
+			</div>
+		</div>
+
+	</ui-component>
+
+</ui-plugin>
+
+<script>
+	PLUGIN(function(exports) {
+
+		exports.reload = function() {
+			exports.tapi('setup_read ERROR', '@reset');
+		};
+
+		exports.submit = function() {
+			var form = exports.form;
+			exports.tapi('setup_save ERROR', form, function() {
+				SET('common.name', form.name);
+				EXEC('-notify/success', '@(Configuration have been saved successfully.)');
+			});
+		};
+
+		exports.generate = function() {
+			exports.set('secret_tms @type:show', GUID(35));
+		};
+
+		exports.token = function() {
+			exports.set('token @type:show', GUID(30));
+		};
+
+	});
+</script>

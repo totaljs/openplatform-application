@@ -1,0 +1,51 @@
+<style>
+	.~PATH~ figure { height: 100%; height: 160px; }
+	.~PATH~ figure button { width: 90%; height: 90%; border: 0; background-color: #F8F8F8; font-size: 14px; border-radius: 5px; margin: 5% 0 0 10%; }
+	.~PATH~ figure button.highlight { background-color: #F9F9F9; }
+	.~PATH~ figure button i { font-size: 30px; display: block; margin-bottom: 15px; }
+	.~PATH~ figure button:hover { background-color: #F0F0F0; }
+</style>
+
+<ui-plugin config="aclass:1">
+	<ui-component name="viewbox" path="common.page" config="parent:window;centered:1;margin:75">
+		<div style="width:100%;max-width:600px;margin:0 auto;text-align:left">
+
+			<div class="center">
+				<div style="font-size:20px;padding-bottom:45px">
+					<i class="ti ti-totaljs color" style="font-size:55px"></i>
+					<ui-bind path="common.name" config="text" class="mt10 block"></ui-bind>
+				</div>
+			</div>
+
+			<ui-bind path="?.plugins" config="template" class="apps grid-3">
+				<script type="text/html">
+					{{ foreach m in value }}
+					<figure>
+						<button class="exec" data-exec="?/open" data-id="{{ m.url }}"><i class="{{ m.icon }}"></i><span>{{ m.name }}</span></button>
+					</figure>
+					{{ end }}
+				</script>
+			</ui-bind>
+
+		</div>
+	</ui-component>
+</ui-plugin>
+
+<script>
+
+	PLUGIN(function(exports) {
+
+		exports.refresh = function() {
+			exports.set('plugins', common.plugins.slice(0));
+		};
+
+		exports.open = function(el) {
+			var id = ATTRD(el);
+			REDIRECT(id);
+		};
+
+		exports.refresh();
+
+	});
+
+</script>

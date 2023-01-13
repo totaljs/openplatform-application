@@ -1,3 +1,40 @@
 /*auto*/
 
-html,body { overflow: hidden; margin: 0; padding: 0; color: #303030; }
+.monospace { font-family: Menlo, Consolas, monospace; }
+
+html,body { overflow: hidden; margin: 0; padding: 0; color: #303030; height: 100%; }
+
+.auto { width: 100%; margin: 0 auto; text-align: left; }
+.inline { position: relative; display: inline-block; }
+
+.appmenu { width: 65px; border-right: 1px solid #E0E0E0; float: left; padding: 5px 0 0; background-color: #FFF; color: #777; }
+.appmenu .exec, .appmenu a { height: 34px; width: 34px; font-size: 18px; line-height: 34px; text-align: center; margin: 11px 15px 0 15px; cursor: pointer; border-radius: var(--radius); display: block; color: #888; }
+.appmenu .selected, .appmenu .exec:hover, .appmenu a:hover { background-color: #F0F0F0; color: #000; }
+.appmenu hr { margin: 15px 10px; }
+.appmain { margin-left: 65px; }
+
+header { height: 60px; padding: 0 10px 0 0; border-bottom: 1px solid #E0E0E0; text-align: right; }
+header .back { float: left; margin: 12px 0 0 20px; height: 34px; line-height: 32px; width: 34px; border: 1px solid #E0E0E0; text-align: center; cursor: pointer; color: #000; background-color: #F8F8F8; border-radius: var(--radius); font-weight: bold; }
+header .back:hover { background-color: #F0F0F0; }
+header label { float: left; line-height: 59px; font-weight: bold; margin-left: 20px; font-size: 15px; }
+header label i { margin: 0 10px 0 0; color: var(--color); }
+header .toolbar { float: right; margin: 15px 10px 0 0; }
+header .toolbar button { height: 30px; font-size: 12px; }
+
+.mainmenu { height: 34px; width: 34px; font-size: 18px; line-height: 34px; text-align: center; margin: 8px 0 10px 15px !important; cursor: pointer; background-color: #F0F0F0; border-radius: var(--radius); color: #000 !important; }
+.mainmenu:hover { background-color: #F5F5F5; }
+
+.button { border: 0; margin: 0; background-color: #E7E7E7; height: 40px; padding: 0 20px; color: #000; cursor: pointer; font-family: Arial; line-height: 34px; vertical-align: middle; outline: 0; font-size: 14px; text-decoration: none; transition: all 0.3s; width: 100%; }
+.button i { width: 15px; text-align: center; margin-right: 5px; }
+.button:hover { opacity: 0.8; }
+.button[name='submit'] { font-weight: bold; background-color: var(--color); color: #FFF; }
+.button:disabled { background-color: #F5F5F5 !important; border-color: #E0E0E0 !important; color: #A0A0A0 !important; cursor: not-allowed; box-shadow: none; }
+.button:disabled i { color: #A0A0A0 !important; }
+.button:first-child { border-top-left-radius: var(--radius); border-bottom-left-radius: var(--radius); }
+.button:last-child { border-top-right-radius: var(--radius); border-bottom-right-radius: var(--radius); }
+.button.small { height: 24px; padding: 0 8px; line-height: 14px; font-size: 12px; }
+
+.divider { position: relative; margin: 25px 0; }
+.divider div { position: absolute; left: 0; top: -10px; right: 0; text-align: center; }
+.divider span { background-color: #F0F0F0; border-radius: var(--radius); padding: 5px 8px; font-size: 11px; color: #999; }
+.divider span i { margin-right: 5px; }
