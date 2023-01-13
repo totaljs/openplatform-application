@@ -6,10 +6,12 @@
 
 __Instructions__:
 
-- Download source-code
-- Install Total.js framework `$ npm install`
-- Run `$ node index.js`
-- Run the app in the OpenPlatform simulator: <http://simulator.totaljs.com?url=http%3A%2F%2F127.0.0.1%3A8000>
+- Download source code
+- Install NPM dependencies with `$ npm install`
+- Register your local app in the OpenPlatform instance
+	- add request and response tokens to `/config`
+- Run the app `$ node index.js`
+- Visit the app in the OpenPlatform
 
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
 [license-url]: license.txt

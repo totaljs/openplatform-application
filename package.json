@@ -1,18 +1,17 @@
 {
-  "name": "OpenPlatformTestApp",
-  "description": "Test application for the OpenPlatform",
+  "name": "OpenPlatformApp",
   "version": "0.0.1",
   "main": "index.js",
   "dependencies": {
     "total4": "latest"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js 8000"
   },
   "keywords": [
-    "opneplatform",
+    "openplatform",
     "application"
   ],
-  "author": "Peter Širka",
+  "author": "Total.js",
   "license": "MIT"
 }
