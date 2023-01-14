@@ -8,10 +8,9 @@ __Instructions__:
 
 - Download source code
 - Install NPM dependencies with `$ npm install`
-- Register your local app in the OpenPlatform instance
-	- add request and response tokens to `/config`
 - Run the app `$ node index.js`
-- Visit the app in the OpenPlatform
+- Register your local app in the OpenPlatform instance
+- Visit the app in the OpenPlatform and set tokens in the `Configuration` section
 
 [license-image]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat
 [license-url]: license.txt
