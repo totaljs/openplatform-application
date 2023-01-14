@@ -8,6 +8,7 @@ html,body { overflow: hidden; margin: 0; padding: 0; color: #303030; height: 100
 .inline { position: relative; display: inline-block; }
 
 .appmenu { width: 65px; border-right: 1px solid #E0E0E0; float: left; padding: 5px 0 0; background-color: #FFF; color: #777; }
+.appmenu > div { border-bottom: 1px solid #E0E0E0; }
 .appmenu .exec, .appmenu a { height: 34px; width: 34px; font-size: 18px; line-height: 34px; text-align: center; margin: 11px 15px 0 15px; cursor: pointer; border-radius: var(--radius); display: block; color: #888; }
 .appmenu .selected, .appmenu .exec:hover, .appmenu a:hover { background-color: #F0F0F0; color: #000; }
 .appmenu hr { margin: 15px 10px; }
@@ -21,7 +22,7 @@ header label i { margin: 0 10px 0 0; color: var(--color); }
 header .toolbar { float: right; margin: 15px 10px 0 0; }
 header .toolbar button { height: 30px; font-size: 12px; }
 
-.mainmenu { height: 34px; width: 34px; font-size: 18px; line-height: 34px; text-align: center; margin: 8px 0 10px 15px !important; cursor: pointer; background-color: #F0F0F0; border-radius: var(--radius); color: #000 !important; }
+.mainmenu { height: 34px; width: 34px; font-size: 18px; line-height: 34px; text-align: center; margin: 8px 0 12px 15px !important; cursor: pointer; background-color: #F0F0F0; border-radius: var(--radius); color: #000 !important; }
 .mainmenu:hover { background-color: #F5F5F5; }
 
 .button { border: 0; margin: 0; background-color: #E7E7E7; height: 40px; padding: 0 20px; color: #000; cursor: pointer; font-family: Arial; line-height: 34px; vertical-align: middle; outline: 0; font-size: 14px; text-decoration: none; transition: all 0.3s; width: 100%; }

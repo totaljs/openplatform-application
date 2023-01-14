@@ -26,9 +26,11 @@
 
 	<div>
 		<div class="appmenu">
-			<span class="mainmenu exec" data-href="/"><i class="ti ti-menu"></i></span>
-			<ui-component name="viewbox" config="parent:window;margin:44">
-				<ui-component name="aselected" path="NAV.url">
+			<div>
+				<span class="mainmenu exec" data-href="/"><i class="ti ti-menu"></i></span>
+			</div>
+			<ui-component name="viewbox" config="parent:window;margin:60">
+				<ui-component name="aselected" path="NAV.url" style="margin-top:15px">
 					<ui-bind path="common.plugins" config="template">
 						<script type="text/html">
 							{{ foreach m in value }}
