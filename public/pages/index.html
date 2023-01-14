@@ -10,13 +10,6 @@
 	<ui-component name="viewbox" path="common.page" config="parent:window;centered:1;margin:75">
 		<div style="width:100%;max-width:600px;margin:0 auto;text-align:left">
 
-			<div class="center">
-				<div style="font-size:20px;padding-bottom:45px">
-					<i class="ti ti-totaljs color" style="font-size:55px"></i>
-					<ui-bind path="common.name" config="text" class="mt10 block"></ui-bind>
-				</div>
-			</div>
-
 			<ui-bind path="?.plugins" config="template" class="apps grid-3">
 				<script type="text/html">
 					{{ foreach m in value }}

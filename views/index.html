@@ -92,7 +92,10 @@
 		NAV.clientside('.jR');
 
 		MIDDLEWARE('init', function(next) {
-			WAIT('common.ready', next);
+			if (common.ready)
+				next();
+			else
+				WAIT('common.ready', next);
 		});
 
 		PLUGIN('common', function(exports) {
@@ -126,7 +129,7 @@
 		});
 
 		// A simple integration for navigation
-		W.API_INIT = function() {
+		W.APP_INIT = function() {
 
 			common.ready = true;
 
