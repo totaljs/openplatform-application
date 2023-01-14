@@ -24,7 +24,7 @@
 	<ui-component name="LAZY notify"></ui-component>
 	<ui-component name="LAZY message" config="style:2"></ui-component>
 
-	<div>
+	<ui-component name="ready" class="invisible">
 		<div class="appmenu">
 			<div>
 				<span class="mainmenu exec" data-href="/"><i class="ti ti-menu"></i></span>
@@ -59,7 +59,7 @@
 			</div>
 			<ui-component name="page" path="common.page" config="if:welcome;url:/pages/index.html;reload:?/reload" class="hidden invisible"></ui-component>
 		</div>
-	</div>
+	</ui-component>
 
 	@{json(model, 'pluginsdata')}
 
