@@ -79,6 +79,8 @@ Data.auth = function($) {
 
 		session = response.body.parseJSON(true);
 
+		DEF.onLocale = () => session.language ? (session.language || CONF.language) : CONF.language;
+
 		if (session) {
 			session.dtexpire = NOW.add(CONF.op_expire || EXPIRE);
 			session.token = token;
