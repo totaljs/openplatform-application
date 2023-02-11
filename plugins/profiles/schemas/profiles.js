@@ -1,17 +1,8 @@
 NEWSCHEMA('Profiles', function(schema) {
 
-	schema.action('permissions', {
-		name: 'Check permissions',
-		action: function($) {
-
-			if (!UNAUTHORIZED($, 'profiles'))
-				$.success();
-
-		}
-	});
-
 	schema.action('list', {
 		name: 'List of profiles',
+		permissions: 'profiles',
 		action: function($) {
 
 			var arr = [];

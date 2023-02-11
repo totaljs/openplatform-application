@@ -1,17 +1,8 @@
 NEWSCHEMA('Products', function(schema) {
 
-	schema.action('permissions', {
-		name: 'Check permissions',
-		action: function($) {
-
-			if (!UNAUTHORIZED($, 'products'))
-				$.success();
-
-		}
-	});
-
 	schema.action('list', {
 		name: 'List of products',
+		permissions: 'products',
 		action: function($) {
 
 			var arr = [];

@@ -7,16 +7,9 @@ NEWSCHEMA('Setup', function(schema) {
 	schema.define('op_reqtoken', String);
 	schema.define('op_restoken', String);
 
-	schema.action('permissions', {
-		name: 'Check permissions',
-		action: function($) {
-			if (!UNAUTHORIZED($, 'setup'))
-				$.success();
-		}
-	});
-
 	schema.action('save', {
 		name: 'Save configuration',
+		permissions: 'setup',
 		action: function($, model) {
 			COPY(model, MAIN.db.config);
 			LOADCONFIG(model);
@@ -27,6 +20,7 @@ NEWSCHEMA('Setup', function(schema) {
 
 	schema.action('read', {
 		name: 'Read configuration',
+		permissions: 'setup',
 		action: function($) {
 			$.callback(MAIN.db.config);
 		}
@@ -34,6 +28,7 @@ NEWSCHEMA('Setup', function(schema) {
 
 	schema.action('account', {
 		name: 'Read account data',
+		permissions: 'setup',
 		action: async function($) {
 			$.callback($.user.json ? $.user.json() : $.user);
 		}

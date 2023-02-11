@@ -10,6 +10,6 @@ exports.routes = [
 exports.install = function() {
 
 	// Profiles
-	ROUTE('+API    /api/    -profiles    *Profiles   --> permissions list (response)');
+	ROUTE('+API    /api/    -profiles    *Profiles   --> list');
 
 };
