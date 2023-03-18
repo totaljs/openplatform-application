@@ -3,7 +3,7 @@ exports.name = '@(Products)';
 exports.position = 1;
 exports.permissions = [{ id: 'products', name: 'Products' }];
 exports.visible = user => user.sa || user.permissions.includes('products');
-// exports.hidden = true; // hides item in the menue
+// exports.hidden = true; // hides item in the menu
 exports.routes = [
 	{ url: '/products/{id}/', html: 'detail' }
 ];
