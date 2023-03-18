@@ -40,7 +40,9 @@
 					<ui-bind path="common.plugins" config="template">
 						<script type="text/html">
 							{{ foreach m in value }}
+								{{ if !m.hidden }}
 								<a href="{{ m.url }}" class="jR" title="{{ m.name }}"><i class="{{ m.icon }}"></i></a>
+								{{ fi }}
 							{{ end }}
 						</script>
 					</ui-bind>

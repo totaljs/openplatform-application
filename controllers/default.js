@@ -17,6 +17,7 @@ function index() {
 			obj.name = TRANSLATOR(self.user.language || '', item.name);
 			obj.icon = item.icon;
 			obj.import = item.import;
+			obj.hidden = item.hidden;
 			plugins.push(obj);
 		}
 	}
