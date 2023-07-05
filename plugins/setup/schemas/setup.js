@@ -28,7 +28,6 @@ NEWSCHEMA('Setup', function(schema) {
 
 	schema.action('account', {
 		name: 'Read account data',
-		permissions: 'setup',
 		action: async function($) {
 			$.callback($.user.json ? $.user.json() : $.user);
 		}
