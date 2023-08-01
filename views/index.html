@@ -113,7 +113,7 @@
 			model.plugins.forEach(function(plugin) {
 				plugin.url = '/' + plugin.id + '/';
 				ROUTE(plugin.url, () => exports.set('page', 'plugin' + plugin.id), 'init');
-				plugin.routes && plugin.routes.forEach(item => ROUTE('@{#}' + item.url, () => exports.set('page', 'plugin' + plugin.id + item.html), 'init'));
+				plugin.routes && plugin.routes.forEach(item => ROUTE('@{#}' + item.url, () => exports.set('page', 'plugin' + plugin.id + (item.html === 'index' ? '' : item.html)), 'init'));
 				plugin.import && $(document.body).append('<ui-import config="url:{0};id:_{1}"></ui-import>'.format('@{#}/_' + plugin.id + '/' + plugin.import, plugin.id));
 			});
 
