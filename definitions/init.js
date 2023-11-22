@@ -20,7 +20,7 @@ CONF.op_icon = 'ti ti-rocket';
 LOADCONFIG(db.config);
 
 // UI components
-COMPONENTATOR('ui', 'exec,locale,aselected,page,viewbox,input,importer,box,validate,loading,selected,intranetcss,notify,message,errorhandler,empty,menu,ready,fileuploader,colorpicker,approve,icons,directory', true);
+COMPONENTATOR('ui', 'exec,locale,aselected,page,viewbox,input,importer,box,validate,loading,selected,intranetcss,notify,message,errorhandler,empty,menu,ready,fileuploader,colorpicker,approve,icons,directory,uibuilder,uistudio', true);
 
 // Permissions
 ON('ready', function() {
