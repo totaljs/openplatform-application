@@ -1,16 +1,12 @@
-NEWSCHEMA('Products', function(schema) {
+NEWACTION('Products/list', {
+	name: 'List of products',
+	permissions: 'products',
+	action: function($) {
 
-	schema.action('list', {
-		name: 'List of products',
-		permissions: 'products',
-		action: function($) {
+		var arr = [];
+		for (var i = 0; i < 5; i++)
+			arr.push(GUID());
 
-			var arr = [];
-			for (var i = 0; i < 5; i++)
-				arr.push(GUID());
-
-			$.callback(arr);
-		}
-	});
-
+		$.callback(arr);
+	}
 });

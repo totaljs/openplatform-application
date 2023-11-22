@@ -11,6 +11,6 @@ exports.routes = [
 exports.install = function() {
 
 	// Profiles
-	ROUTE('+API    /api/    -products    *Products   --> list');
+	ROUTE('+API    /api/    -products   --> Products/list');
 
 };

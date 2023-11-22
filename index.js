@@ -1,28 +1,32 @@
 // ===================================================
-// Total.js start script
+// Total.js v5 start script
 // https://www.totaljs.com
 // ===================================================
 
-const total = 'total4';
+require('total5');
+
 const options = {};
 
 // options.ip = '127.0.0.1';
 // options.port = parseInt(process.argv[2]);
-// options.unixsocket = require('path').join(require('os').tmpdir(), 'app_name');
+// options.unixsocket = PATH.join(F.tmpdir, 'app_name.socket');
+// options.unixsocket777 = true;
 // options.config = { name: 'Total.js' };
 // options.sleep = 3000;
 // options.inspector = 9229;
 // options.watch = ['private'];
 // options.livereload = 'https://yourhostname';
+// options.watcher = true; // enables watcher for the release mode only controlled by the app `F.restart()`
+// options.edit = 'wss://www.yourcodeinstance.com/?id=projectname'
+options.release = process.argv.includes('--release');
 
-// Enables cluster:
+// Service mode:
+options.servicemode = process.argv.includes('--service') || process.argv.includes('--servicemode');
+// options.servicemode = 'definitions,modules,config';
+
+// Cluster:
+// options.tz = 'utc';
 // options.cluster = 'auto';
+// options.limit = 10; // max 10. threads (works only with "auto" scaling)
 
-// Enables threads:
-// options.cluster = 'auto';
-// options.timeout = 5000;
-// options.threads = '/api/';
-// options.logs = 'isolated';
-
-var type = process.argv.indexOf('--release', 1) !== -1 || process.argv.indexOf('release', 1) !== -1 ? 'release' : 'debug';
-require(total + '/' + type)(options);
+F.run(options);

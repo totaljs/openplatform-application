@@ -2,19 +2,18 @@ exports.install = function() {
 	ROUTE('+GET /*', index);
 };
 
-function index() {
+function index($) {
 
-	var self = this;
 	var plugins = [];
 
 	for (var key in F.plugins) {
 		var item = F.plugins[key];
-		if (self.user.sa || !item.visible || item.visible(self.user)) {
+		if ($.user.sa || !item.visible || item.visible($.user)) {
 			var obj = {};
 			obj.id = item.id;
 			obj.routes = item.routes;
 			obj.position = item.position;
-			obj.name = TRANSLATOR(self.user.language || '', item.name);
+			obj.name = TRANSLATE($.user.language || '', item.name);
 			obj.icon = item.icon;
 			obj.import = item.import;
 			obj.hidden = item.hidden;
@@ -23,5 +22,5 @@ function index() {
 	}
 
 	plugins.quicksort('position');
-	self.view('index', plugins);
+	$.view('index', plugins);
 }

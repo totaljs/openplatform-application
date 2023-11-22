@@ -1,16 +1,12 @@
-NEWSCHEMA('Profiles', function(schema) {
+NEWACTION('Profiles/list', {
+	name: 'List of profiles',
+	permissions: 'profiles',
+	action: function($) {
 
-	schema.action('list', {
-		name: 'List of profiles',
-		permissions: 'profiles',
-		action: function($) {
+		var arr = [];
+		for (var i = 0; i < 5; i++)
+			arr.push(GUID());
 
-			var arr = [];
-			for (var i = 0; i < 5; i++)
-				arr.push(GUID());
-
-			$.callback(arr);
-		}
-	});
-
+		$.callback(arr);
+	}
 });
